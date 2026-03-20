@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>March Madness Squares Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:      #00c358;
+      --green-dim:  #00a349;
+      --green-bg:   #e6f9ef;
+      --navy:       #0d1f2d;
+      --navy-mid:   #1a3044;
+      --grey-cell:  #e8ecf0;
+      --grey-label: #8a9bb0;
+      --text:       #1a2332;
+      --border:     #d0d9e3;
+      --white:      #ffffff;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--navy);
+      padding: 20px 24px 16px;
+      border-bottom: 3px solid var(--green);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .title span {
+      color: var(--green);
+    }
+
+    .season-badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--green);
+      color: var(--navy);
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+
+    .meta {
+      margin-top: 8px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      font-size: 12px;
+      color: var(--grey-label);
+      font-weight: 500;
+    }
+
+    .meta-item strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .live-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      margin-right: 5px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ── Main layout ── */
+    .main {
+      padding: 20px 24px 32px;
+      max-width: 700px;
+    }
+
+    /* ── Axis labels ── */
+    .axis-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-label);
+      margin-bottom: 6px;
+    }
+
+    .grid-wrapper {
+      position: relative;
+    }
+
+    .loser-label {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .winner-label {
+      position: absolute;
+      left: -44px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      white-space: nowrap;
+    }
+
+    .grid-outer {
+      margin-left: 20px;
+    }
+
+    /* ── Grid ── */
+    .grid-container {
+      display: grid;
+      grid-template-columns: 28px repeat(10, 1fr);
+      grid-template-rows: 28px repeat(10, 1fr);
+      gap: 3px;
+      width: 100%;
+    }
+
+    .corner { /* empty top-left corner */ }
+
+    .col-header, .row-header {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--grey-label);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cell {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      transition: background 0.4s ease, color 0.4s ease, transform 0.15s ease;
+      cursor: default;
+      position: relative;
+      background: var(--grey-cell);
+      color: transparent;
+    }
+
+    .cell.active {
+      background: var(--green);
+      color: var(--navy);
+    }
+
+    .cell.active:hover {
+      transform: scale(1.08);
+      background: var(--green-dim);
+      z-index: 10;
+    }
+
+    .cell.zero {
+      background: var(--grey-cell);
+      color: transparent;
+    }
+
+    /* Tooltip */
+    .cell[data-tooltip]:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--navy-mid);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    /* ── Recent games ── */
+    .recent {
+      margin-top: 24px;
+    }
+
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-label);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--navy-mid);
+    }
+
+    .game-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .game-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: var(--navy-mid);
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .game-square {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--green);
+      min-width: 36px;
+    }
+
+    .game-matchup {
+      flex: 1;
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .game-score {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--grey-label);
+      white-space: nowrap;
+    }
+
+    .game-date {
+      font-size: 11px;
+      color: var(--grey-label);
+      min-width: 50px;
+      text-align: right;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 0;
+      color: var(--grey-label);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .empty-state .big {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--grey-label);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* ── Loading ── */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 300px;
+      color: var(--grey-label);
+      font-size: 14px;
+      gap: 10px;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--navy-mid);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="title">March Madness <span>Squares</span></div>
+    <div class="season-badge">2026 NCAA Tournament</div>
+  </div>
+  <div class="meta">
+    <div class="meta-item"><span class="live-dot"></span>Auto-updates every 30 min</div>
+    <div class="meta-item">Games played: <strong id="total-games">—</strong></div>
+    <div class="meta-item">Last updated: <strong id="last-updated">—</strong></div>
+  </div>
+</div>
+
+<div class="main" id="main-content">
+  <div class="loading"><div class="spinner"></div> Loading...</div>
+</div>
+
+<script>
+  const JSON_URL = './squares.json';
+
+  function formatDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+  }
+
+  function formatShortDate(str) {
+    if (!str) return '';
+    const [y, m, d] = str.split('-');
+    return `${parseInt(m)}/${parseInt(d)}`;
+  }
+
+  function buildGrid(grid, totalGames) {
+    let html = `
+      <div class="grid-outer">
+        <div class="axis-label loser-label">Loser's last digit →</div>
+        <div class="grid-wrapper">
+          <div class="axis-label winner-label">Winner's last digit ↓</div>
+          <div class="grid-container">
+            <div class="corner"></div>`;
+
+    // Column headers (loser digits)
+    for (let l = 0; l < 10; l++) {
+      html += `<div class="col-header">${l}</div>`;
+    }
+
+    // Rows (winner digits)
+    for (let w = 0; w < 10; w++) {
+      html += `<div class="row-header">${w}</div>`;
+      for (let l = 0; l < 10; l++) {
+        const count = (grid[w] && grid[w][l]) ? parseInt(grid[w][l]) : 0;
+        const pct   = totalGames > 0 ? ((count / totalGames) * 100).toFixed(1) : '0.0';
+        const cls   = count > 0 ? 'cell active' : 'cell zero';
+        const tip   = count > 0
+          ? `Winner ${w} / Loser ${l} — ${count} game${count !== 1 ? 's' : ''} (${pct}%)`
+          : `Winner ${w} / Loser ${l} — no games yet`;
+        html += `<div class="${cls}" data-tooltip="${tip}">${count > 0 ? count : ''}</div>`;
+      }
+    }
+
+    html += `</div></div></div>`;
+    return html;
+  }
+
+  function buildRecentGames(games) {
+    if (!games || games.length === 0) {
+      return `<div class="empty-state">
+        <span class="big">Tournament hasn't started yet</span>
+        Grid will populate as games are played
+      </div>`;
+    }
+
+    let html = '<div class="game-list">';
+    for (const g of games) {
+      html += `
+        <div class="game-row">
+          <div class="game-square">${g.square}</div>
+          <div class="game-matchup">${g.winner} def. ${g.loser}</div>
+          <div class="game-score">${g.winnerScore}–${g.loserScore}</div>
+          <div class="game-date">${formatShortDate(g.date)}</div>
+        </div>`;
+    }
+    html += '</div>';
+    return html;
+  }
+
+  async function loadData() {
+    try {
+      const resp = await fetch(`${JSON_URL}?t=${Date.now()}`);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+
+      document.getElementById('total-games').textContent = data.totalGames ?? 0;
+      document.getElementById('last-updated').textContent = formatDate(data.updated);
+
+      const main = document.getElementById('main-content');
+      main.innerHTML = `
+        ${buildGrid(data.grid, data.totalGames)}
+        <div class="recent">
+          <div class="section-title">Recent Games</div>
+          ${buildRecentGames(data.recentGames)}
+        </div>
+      `;
+    } catch (e) {
+      document.getElementById('main-content').innerHTML =
+        `<div class="loading" style="color:#ff6b6b">Failed to load data. Retrying...</div>`;
+      console.error(e);
+      setTimeout(loadData, 10000);
+    }
+  }
+
+  loadData();
+  // Refresh every 5 minutes client-side (JSON updates every 30 min server-side)
+  setInterval(loadData, 5 * 60 * 1000);
+</script>
+</body>
+</html>
