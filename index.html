@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>March Madness Squares Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -10,76 +10,134 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --green: #00c358; --green-dark: #00a349;
-      --navy: #0d1f2d; --navy-mid: #1a3044;
+      --navy: #0d1f2d;
       --grey-cell: #e8ecf0; --grey-label: #8a9bb0;
       --grey-light: #f2f5f8; --text: #1a2332;
       --border: #d0d9e3; --white: #ffffff;
     }
     body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); margin: 0; padding: 0; }
-    .header { background: var(--navy); padding: 16px 20px 14px; border-bottom: 3px solid var(--green); }
-    .header-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .title { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--white); line-height: 1; }
-    .title span { color: var(--green); }
-    .season-badge { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: var(--green); color: var(--navy); padding: 2px 7px; border-radius: 3px; }
-    .meta { margin-top: 6px; display: flex; gap: 16px; flex-wrap: wrap; }
-    .meta-item { font-size: 11px; color: var(--grey-label); font-weight: 500; }
-    .meta-item strong { color: var(--white); font-weight: 600; }
-    .live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 4px; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-    .filters { padding: 12px 20px; background: var(--grey-light); border-bottom: 1px solid var(--border); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    .filter-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--grey-label); margin-right: 4px; }
-    .filter-btn { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 4px; border: 1.5px solid var(--border); background: var(--white); color: var(--grey-label); cursor: pointer; transition: all 0.15s; user-select: none; }
+
+    /* ── Filters ── */
+    .filters {
+      padding: 10px 16px;
+      background: var(--grey-light);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-label {
+      font-size: 13px; font-weight: 500; text-transform: none;
+      letter-spacing: 0; color: var(--grey-label); margin-right: 2px;
+    }
+    .filter-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 500; letter-spacing: 0;
+      text-transform: none;
+      padding: 4px 12px; border-radius: 4px;
+      border: 1.5px solid var(--border);
+      background: var(--white); color: var(--grey-label);
+      cursor: pointer; transition: all 0.15s; user-select: none;
+    }
     .filter-btn:hover { border-color: var(--green); color: var(--text); }
     .filter-btn.active { background: var(--green); border-color: var(--green); color: var(--white); }
-    .filter-btn.all-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-    .main { padding: 16px 20px 24px; }
-    .axis-row { margin-bottom: 4px; margin-left: 35px; }
+
+    /* ── Main ── */
+    .main { padding: 14px 16px 20px; }
+
+    /* ── Grid ── */
+    .grid-wrap { overflow-x: auto; }
+    .axis-row { margin-bottom: 4px; margin-left: 36px; }
     .axis-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-label); }
     .grid-with-label { display: flex; gap: 6px; align-items: center; }
     .winner-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-label); writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
-    .grid-wrap { overflow-x: auto; }
-    .grid-container { display: grid; grid-template-columns: 32px repeat(10, 1fr); gap: 3px; min-width: 380px; max-width: 560px; }
+    .grid-container {
+      display: grid;
+      grid-template-columns: 28px repeat(10, 1fr);
+      gap: 3px;
+      width: 100%;
+      max-width: 700px;
+    }
     .corner {}
     .col-header, .row-header { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: var(--grey-label); display: flex; align-items: center; justify-content: center; height: 28px; }
     .row-header { height: auto; }
     .cell { aspect-ratio: 1; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; transition: transform 0.15s; cursor: default; background: var(--grey-cell); color: transparent; position: relative; }
-    .cell.active { background: var(--green); color: var(--navy); }
-    .cell.active:hover { transform: scale(1.1); background: var(--green-dark); z-index: 10; }
+    .cell.active { background: var(--green); color: var(--navy); cursor: pointer; }
+    .cell.active:hover { transform: scale(1.08); background: var(--green-dark); z-index: 10; }
     .cell[data-tip]:hover::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%); background: var(--navy); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; white-space: nowrap; padding: 4px 8px; border-radius: 4px; z-index: 100; pointer-events: none; }
-    .games-count { margin-top: 10px; font-size: 12px; color: var(--grey-label); font-weight: 500; }
+    .games-count { margin-top: 8px; font-size: 12px; color: var(--grey-label); font-weight: 500; }
     .games-count strong { color: var(--text); font-weight: 700; }
-    .recent { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; }
-    .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-label); margin-bottom: 10px; }
-    .game-list { display: flex; flex-direction: column; gap: 5px; }
-    .game-row { display: flex; align-items: center; gap: 10px; padding: 7px 10px; background: var(--grey-light); border-radius: 5px; font-size: 12px; }
-    .game-square { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 800; color: var(--green-dark); min-width: 32px; }
-    .game-round { font-size: 11px; font-weight: 600; color: var(--grey-label); min-width: 80px; }
-    .game-matchup { flex: 1; color: var(--text); font-weight: 500; }
-    .game-score { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: var(--grey-label); white-space: nowrap; }
-    .game-date { font-size: 11px; color: var(--grey-label); min-width: 36px; text-align: right; }
-    .empty-state { text-align: center; padding: 28px 0; color: var(--grey-label); font-size: 13px; }
-    .empty-state .big { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; display: block; margin-bottom: 4px; }
+
+    /* ── Expandable game log ── */
+    .gamelog-toggle {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+      width: fit-content;
+    }
+    .gamelog-toggle-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--grey-label);
+    }
+    .gamelog-toggle:hover .gamelog-toggle-label { color: var(--text); }
+    .toggle-arrow {
+      font-size: 10px; color: var(--grey-label);
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+    .toggle-arrow.open { transform: rotate(180deg); }
+
+    .gamelog {
+      display: none;
+      margin-top: 10px;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+    .gamelog.open { display: block; }
+
+    .game-list { display: flex; flex-direction: column; gap: 4px; }
+    .game-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 10px; background: var(--grey-light);
+      border-radius: 5px; font-size: 12px; flex-wrap: wrap;
+    }
+    .game-square { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 800; color: var(--green-dark); min-width: 32px; }
+    .game-round { font-size: 11px; font-weight: 600; color: var(--grey-label); min-width: 60px; }
+    .game-desc { flex: 1; color: var(--text); font-weight: 500; min-width: 180px; }
+    .game-date { font-size: 11px; color: var(--grey-label); white-space: nowrap; }
+
+    .empty-state { padding: 24px 0; color: var(--grey-label); font-size: 13px; }
+
     .loading { display: flex; align-items: center; justify-content: center; height: 260px; color: var(--grey-label); font-size: 13px; gap: 8px; }
     .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Desktop wider ── */
+    @media (min-width: 600px) {
+      .main { padding: 16px 24px 28px; }
+      .filters { padding: 10px 24px; }
+      .grid-container { max-width: 100%; }
+      .cell { font-size: 18px; }
+    }
   </style>
 </head>
 <body>
-<div class="header">
-  <div class="header-top">
-    <div class="title">March Madness <span>Squares</span></div>
-    <div class="season-badge">2026 NCAA Tournament</div>
-  </div>
-  <div class="meta">
-    <div class="meta-item"><span class="live-dot"></span>Auto-updates every 30 min</div>
-    <div class="meta-item">Games played: <strong id="total-games">—</strong></div>
-    <div class="meta-item">Last updated: <strong id="last-updated">—</strong></div>
-  </div>
-</div>
 
-<div class="filters" id="filters" style="display:none">
+<div class="filters" id="filters">
   <span class="filter-label">Round:</span>
-  <button class="filter-btn all-btn active" data-round="all">All</button>
+  <button class="filter-btn active" data-round="all">All</button>
+  <button class="filter-btn" data-round="First Four">First 4</button>
+  <button class="filter-btn" data-round="Round of 64">R64</button>
+  <button class="filter-btn" data-round="Round of 32">R32</button>
+  <button class="filter-btn" data-round="Sweet 16">S16</button>
+  <button class="filter-btn" data-round="Elite 8">E8</button>
+  <button class="filter-btn" data-round="Final Four">FF</button>
+  <button class="filter-btn" data-round="Championship">NT</button>
 </div>
 
 <div class="main" id="main-content">
@@ -91,11 +149,7 @@ const JSON_URL = './squares.json';
 const ROUND_ORDER = ["First Four","Round of 64","Round of 32","Sweet 16","Elite 8","Final Four","Championship"];
 let appData = null;
 let activeRounds = new Set(['all']);
-
-function formatDate(iso) {
-  if (!iso) return '—';
-  return new Date(iso).toLocaleDateString('en-US', { month:'short', day:'numeric', hour:'numeric', minute:'2-digit', timeZoneName:'short' });
-}
+let logOpen = false;
 
 function formatShortDate(str) {
   if (!str) return '';
@@ -113,8 +167,7 @@ function mergeGrids(data, rounds) {
     if (!rg) continue;
     for (let w=0;w<10;w++) for (let l=0;l<10;l++) {
       const v = parseInt(rg[w]?.[l]||0);
-      merged[w][l] += v;
-      total += v;
+      merged[w][l] += v; total += v;
     }
   }
   const out = {};
@@ -144,56 +197,90 @@ function buildGrid(grid, total) {
   return h;
 }
 
-function buildRecentGames(games, rounds) {
-  let filtered = (games||[]);
+function buildGameLog(games, rounds) {
+  let filtered = (games || []).slice().reverse(); // oldest first -> newest first already reversed in json
   if (!rounds.has('all')) filtered = filtered.filter(g => rounds.has(g.round));
-  if (filtered.length===0) return `<div class="empty-state"><span class="big">${(games||[]).length===0?'Tournament hasn\'t started yet':'No games for selected rounds'}</span></div>`;
-  return '<div class="game-list">'+filtered.slice(0,10).map(g=>`
-    <div class="game-row">
-      <div class="game-square">${g.square}</div>
-      <div class="game-round">${g.round||''}</div>
-      <div class="game-matchup">${g.winner} def. ${g.loser}</div>
-      <div class="game-score">${g.winnerScore}–${g.loserScore}</div>
-      <div class="game-date">${formatShortDate(g.date)}</div>
-    </div>`).join('')+'</div>';
-}
 
-function buildFilters(data) {
-  const el = document.getElementById('filters');
-  if (!data.rounds||Object.keys(data.rounds).length===0) { el.style.display='none'; return; }
-  el.style.display='flex';
-  el.querySelectorAll('.round-btn').forEach(b=>b.remove());
-  ROUND_ORDER.filter(r=>data.rounds[r]).forEach(round=>{
-    const count = Object.values(data.rounds[round]).reduce((s,row)=>s+Object.values(row).reduce((a,b)=>a+parseInt(b||0),0),0);
-    const btn = document.createElement('button');
-    btn.className='filter-btn round-btn';
-    btn.dataset.round=round;
-    btn.textContent=`${round} (${count})`;
-    btn.addEventListener('click',()=>toggleRound(round));
-    el.appendChild(btn);
-  });
-}
+  const ROUND_SHORT = {
+    "First Four": "First 4", "Round of 64": "R64", "Round of 32": "R32",
+    "Sweet 16": "S16", "Elite 8": "E8", "Final Four": "FF", "Championship": "NT"
+  };
 
-function toggleRound(round) {
-  if (round==='all') { activeRounds=new Set(['all']); }
-  else {
-    activeRounds.delete('all');
-    if (activeRounds.has(round)) { activeRounds.delete(round); if (activeRounds.size===0) activeRounds=new Set(['all']); }
-    else activeRounds.add(round);
-  }
-  document.querySelectorAll('.filter-btn').forEach(btn=>btn.classList.toggle('active',activeRounds.has(btn.dataset.round)));
-  renderGrid();
+  const count = filtered.length;
+  const logHtml = count === 0
+    ? `<div class="empty-state">No games for selected rounds yet.</div>`
+    : `<div class="game-list">${filtered.map(g => {
+        const [wd, ld] = g.square.split('/');
+        return `<div class="game-row">
+          <div class="game-square">${g.square}</div>
+          <div class="game-round">${ROUND_SHORT[g.round]||g.round||''}</div>
+          <div class="game-desc">${g.winner} ${g.winnerScore}, ${g.loser} ${g.loserScore}: Winner ${wd}, Loser ${ld}</div>
+          <div class="game-date">${formatShortDate(g.date)}</div>
+        </div>`;
+      }).join('')}</div>`;
+
+  return `
+    <div class="gamelog-toggle" id="gamelog-toggle">
+      <span class="gamelog-toggle-label">All Games (${count})</span>
+      <span class="toggle-arrow ${logOpen ? 'open' : ''}" id="toggle-arrow">▼</span>
+    </div>
+    <div class="gamelog ${logOpen ? 'open' : ''}" id="gamelog">
+      ${logHtml}
+    </div>`;
 }
 
 function renderGrid() {
   if (!appData) return;
-  const {grid,total} = mergeGrids(appData,activeRounds);
-  document.getElementById('main-content').innerHTML = `
-    ${buildGrid(grid,total)}
-    <div class="recent">
-      <div class="section-title">Recent Games</div>
-      ${buildRecentGames(appData.recentGames,activeRounds)}
-    </div>`;
+  const {grid, total} = mergeGrids(appData, activeRounds);
+  document.getElementById('main-content').innerHTML =
+    buildGrid(grid, total) + buildGameLog(appData.recentGames, activeRounds);
+
+  // Wire toggle
+  const toggle = document.getElementById('gamelog-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      logOpen = !logOpen;
+      document.getElementById('gamelog').classList.toggle('open', logOpen);
+      document.getElementById('toggle-arrow').classList.toggle('open', logOpen);
+    });
+  }
+}
+
+function updateFilterButtons() {
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', activeRounds.has(btn.dataset.round));
+  });
+}
+
+function toggleRound(round) {
+  if (round === 'all') {
+    activeRounds = new Set(['all']);
+  } else {
+    activeRounds.delete('all');
+    if (activeRounds.has(round)) {
+      activeRounds.delete(round);
+      if (activeRounds.size === 0) activeRounds = new Set(['all']);
+    } else {
+      activeRounds.add(round);
+    }
+  }
+  updateFilterButtons();
+  renderGrid();
+}
+
+// Wire filter buttons (static — always present)
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => toggleRound(btn.dataset.round));
+});
+
+// Hide round buttons that have no data yet
+function updateRoundButtonVisibility(data) {
+  document.querySelectorAll('.filter-btn[data-round]').forEach(btn => {
+    const r = btn.dataset.round;
+    if (r === 'all') return;
+    const hasData = data.rounds && data.rounds[r];
+    btn.style.opacity = hasData ? '1' : '0.4';
+  });
 }
 
 async function loadData() {
@@ -201,19 +288,17 @@ async function loadData() {
     const resp = await fetch(`${JSON_URL}?t=${Date.now()}`);
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     appData = await resp.json();
-    document.getElementById('total-games').textContent = appData.totalGames??0;
-    document.getElementById('last-updated').textContent = formatDate(appData.updated);
-    buildFilters(appData);
+    updateRoundButtonVisibility(appData);
     renderGrid();
   } catch(e) {
-    document.getElementById('main-content').innerHTML=`<div class="loading" style="color:#cc0000">Failed to load — retrying...</div>`;
-    setTimeout(loadData,10000);
+    document.getElementById('main-content').innerHTML =
+      `<div class="loading" style="color:#cc0000">Failed to load — retrying...</div>`;
+    setTimeout(loadData, 10000);
   }
 }
 
-document.querySelector('.all-btn').addEventListener('click',()=>toggleRound('all'));
 loadData();
-setInterval(loadData, 5*60*1000);
+setInterval(loadData, 5 * 60 * 1000);
 </script>
 </body>
 </html>
