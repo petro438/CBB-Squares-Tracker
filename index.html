@@ -44,7 +44,7 @@
     .filter-btn.active { background: var(--green); border-color: var(--green); color: var(--white); }
 
     /* ── Main ── */
-    .main { padding: 14px 16px 20px; }
+    .main { padding: 14px 12px 20px; }
 
     /* ── Grid ── */
     .grid-wrap { overflow-x: auto; }
@@ -57,12 +57,11 @@
       grid-template-columns: 28px repeat(10, 1fr);
       gap: 3px;
       width: 100%;
-      max-width: 700px;
     }
     .corner {}
     .col-header, .row-header { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: var(--grey-label); display: flex; align-items: center; justify-content: center; height: 28px; }
     .row-header { height: auto; }
-    .cell { aspect-ratio: 1; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; transition: transform 0.15s; cursor: default; background: var(--grey-cell); color: transparent; position: relative; }
+    .cell { aspect-ratio: 1; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; transition: transform 0.15s; cursor: default; background: var(--grey-cell); color: transparent; position: relative; }
     .cell.active { background: var(--green); color: var(--navy); cursor: pointer; }
     .cell.active:hover { transform: scale(1.08); background: var(--green-dark); z-index: 10; }
     .cell[data-tip]:hover::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%); background: var(--navy); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; white-space: nowrap; padding: 4px 8px; border-radius: 4px; z-index: 100; pointer-events: none; }
@@ -118,10 +117,12 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ── Desktop wider ── */
-    @media (min-width: 600px) {
-      .main { padding: 16px 24px 28px; }
-      .filters { padding: 10px 24px; }
-      .grid-container { max-width: 100%; }
+    @media (min-width: 500px) {
+      .cell { font-size: 15px; }
+    }
+    @media (min-width: 700px) {
+      .main { padding: 16px 28px 28px; }
+      .filters { padding: 10px 28px; }
       .cell { font-size: 18px; }
     }
   </style>
@@ -221,7 +222,7 @@ function buildGameLog(games, rounds) {
 
   return `
     <div class="gamelog-toggle" id="gamelog-toggle">
-      <span class="gamelog-toggle-label">All Games (${count})</span>
+      <span class="gamelog-toggle-label">${labelText}</span>
       <span class="toggle-arrow ${logOpen ? 'open' : ''}" id="toggle-arrow">▼</span>
     </div>
     <div class="gamelog ${logOpen ? 'open' : ''}" id="gamelog">
