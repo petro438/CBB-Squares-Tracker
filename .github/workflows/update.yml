@@ -28,10 +28,12 @@ jobs:
           CBB_API_KEY: ${{ secrets.CBB_API_KEY }}
         run: python update-squares.py
 
-      - name: Commit and push squares.json
+            - name: Commit and push squares.json
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git reset --hard origin/main
           git add squares.json
           git diff --staged --quiet || git commit -m "Update squares data [$(date -u '+%Y-%m-%d %H:%M UTC')]"
           git push
