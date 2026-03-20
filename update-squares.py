@@ -32,7 +32,6 @@ def fetch_tournament_games():
         params = {
             "season":         2026,
             "seasonType":     "postseason",
-            "tournament":     "NCAA",
             "status":         "final",
             "startDateRange": start,
             "endDateRange":   end,
@@ -43,7 +42,8 @@ def fetch_tournament_games():
             games = resp.json()
             for g in games:
                 gid = g.get("id")
-                if gid not in seen:
+                # Filter to NCAA tournament only client-side
+                if g.get("tournament") == "NCAA" and gid not in seen:
                     seen.add(gid)
                     all_games.append(g)
         except Exception as e:
