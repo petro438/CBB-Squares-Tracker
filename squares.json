@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-20T13:38:05Z",
+  "updated": "2026-03-20T15:28:46Z",
   "season": 2026,
   "totalGames": 20,
   "grid": {
@@ -124,9 +124,256 @@
       "9": 1
     }
   },
+  "rounds": {
+    "First Four": {
+      "0": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "1": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "2": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "3": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "4": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "5": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "6": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "7": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 1,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "8": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 1,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "9": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 1
+      }
+    },
+    "Championship": {
+      "0": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "1": {
+        "0": 1,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 1,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "2": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 2,
+        "8": 1,
+        "9": 0
+      },
+      "3": {
+        "0": 1,
+        "1": 0,
+        "2": 1,
+        "3": 0,
+        "4": 1,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 1
+      },
+      "4": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "5": {
+        "0": 1,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "6": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 1,
+        "5": 0,
+        "6": 0,
+        "7": 1,
+        "8": 0,
+        "9": 0
+      },
+      "7": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 1,
+        "9": 0
+      },
+      "8": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 1,
+        "8": 1,
+        "9": 0
+      },
+      "9": {
+        "0": 0,
+        "1": 1,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      }
+    }
+  },
   "recentGames": [
     {
       "date": "2026-03-20",
+      "round": "Championship",
       "winner": "Gonzaga",
       "winnerScore": 73,
       "loser": "Kennesaw State",
@@ -135,6 +382,7 @@
     },
     {
       "date": "2026-03-20",
+      "round": "Championship",
       "winner": "Houston",
       "winnerScore": 78,
       "loser": "Idaho",
@@ -143,6 +391,7 @@
     },
     {
       "date": "2026-03-20",
+      "round": "Championship",
       "winner": "Saint Louis",
       "winnerScore": 102,
       "loser": "Georgia",
@@ -151,6 +400,7 @@
     },
     {
       "date": "2026-03-20",
+      "round": "Championship",
       "winner": "Illinois",
       "winnerScore": 105,
       "loser": "Pennsylvania",
@@ -159,14 +409,7 @@
     },
     {
       "date": "2026-03-19",
-      "winner": "Texas",
-      "winnerScore": 79,
-      "loser": "BYU",
-      "loserScore": 71,
-      "square": "9/1"
-    },
-    {
-      "date": "2026-03-19",
+      "round": "Championship",
       "winner": "Texas A&M",
       "winnerScore": 63,
       "loser": "Saint Mary's",
@@ -175,6 +418,16 @@
     },
     {
       "date": "2026-03-19",
+      "round": "Championship",
+      "winner": "Texas",
+      "winnerScore": 79,
+      "loser": "BYU",
+      "loserScore": 71,
+      "square": "9/1"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Championship",
       "winner": "Michigan",
       "winnerScore": 101,
       "loser": "Howard",
@@ -183,6 +436,7 @@
     },
     {
       "date": "2026-03-19",
+      "round": "Championship",
       "winner": "VCU",
       "winnerScore": 82,
       "loser": "North Carolina",
@@ -191,6 +445,7 @@
     },
     {
       "date": "2026-03-19",
+      "round": "Championship",
       "winner": "Michigan State",
       "winnerScore": 92,
       "loser": "North Dakota State",
@@ -199,11 +454,102 @@
     },
     {
       "date": "2026-03-19",
+      "round": "Championship",
       "winner": "Arkansas",
       "winnerScore": 97,
       "loser": "Hawai'i",
       "loserScore": 78,
       "square": "7/8"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Championship",
+      "winner": "Vanderbilt",
+      "winnerScore": 78,
+      "loser": "McNeese",
+      "loserScore": 68,
+      "square": "8/8"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Championship",
+      "winner": "Duke",
+      "winnerScore": 71,
+      "loser": "Siena",
+      "loserScore": 65,
+      "square": "1/5"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Championship",
+      "winner": "High Point",
+      "winnerScore": 83,
+      "loser": "Wisconsin",
+      "loserScore": 82,
+      "square": "3/2"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Championship",
+      "winner": "Louisville",
+      "winnerScore": 83,
+      "loser": "South Florida",
+      "loserScore": 79,
+      "square": "3/9"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Championship",
+      "winner": "Nebraska",
+      "winnerScore": 76,
+      "loser": "Troy",
+      "loserScore": 47,
+      "square": "6/7"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Championship",
+      "winner": "TCU",
+      "winnerScore": 66,
+      "loser": "Ohio State",
+      "loserScore": 64,
+      "square": "6/4"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "First Four",
+      "winner": "Miami (OH)",
+      "winnerScore": 89,
+      "loser": "SMU",
+      "loserScore": 79,
+      "square": "9/9"
+    },
+    {
+      "date": "2026-03-18",
+      "round": "First Four",
+      "winner": "Prairie View A&M",
+      "winnerScore": 67,
+      "loser": "Lehigh",
+      "loserScore": 55,
+      "square": "7/5"
+    },
+    {
+      "date": "2026-03-18",
+      "round": "First Four",
+      "winner": "Texas",
+      "winnerScore": 68,
+      "loser": "NC State",
+      "loserScore": 66,
+      "square": "8/6"
+    },
+    {
+      "date": "2026-03-17",
+      "round": "First Four",
+      "winner": "Howard",
+      "winnerScore": 86,
+      "loser": "UMBC",
+      "loserScore": 83,
+      "square": "6/3"
     }
   ]
 }
