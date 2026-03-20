@@ -16,119 +16,51 @@
       --border: #d0d9e3; --white: #ffffff;
     }
     body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); margin: 0; padding: 0; }
-
-    /* ── Filters ── */
-    .filters {
-      padding: 10px 16px;
-      background: var(--grey-light);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .filter-label {
-      font-size: 13px; font-weight: 500; text-transform: none;
-      letter-spacing: 0; color: var(--grey-label); margin-right: 2px;
-    }
-    .filter-btn {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px; font-weight: 500; letter-spacing: 0;
-      text-transform: none;
-      padding: 4px 12px; border-radius: 4px;
-      border: 1.5px solid var(--border);
-      background: var(--white); color: var(--grey-label);
-      cursor: pointer; transition: all 0.15s; user-select: none;
-    }
+    .filters { padding: 10px 16px; background: var(--grey-light); border-bottom: 1px solid var(--border); display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .filter-label { font-size: 13px; font-weight: 500; color: var(--grey-label); margin-right: 2px; }
+    .filter-btn { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 4px 12px; border-radius: 4px; border: 1.5px solid var(--border); background: var(--white); color: var(--grey-label); cursor: pointer; transition: all 0.15s; user-select: none; }
     .filter-btn:hover { border-color: var(--green); color: var(--text); }
     .filter-btn.active { background: var(--green); border-color: var(--green); color: var(--white); }
-
-    /* ── Main ── */
     .main { padding: 14px 12px 20px; }
-
-    /* ── Grid ── */
-    .grid-wrap { overflow-x: auto; }
+    .grid-outer { width: 100%; }
+    .grid-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .axis-row { margin-bottom: 4px; margin-left: 36px; }
     .axis-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-label); }
-    .grid-with-label { display: flex; gap: 6px; align-items: center; }
-    .winner-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-label); writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
-    .grid-container {
-      display: grid;
-      grid-template-columns: 28px repeat(10, 1fr);
-      gap: 3px;
-      width: 100%;
-    }
+    .grid-with-label { display: flex; gap: 4px; align-items: center; }
+    .winner-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-label); writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; flex-shrink: 0; }
+    .grid-container { display: grid; grid-template-columns: 26px repeat(10, 1fr); gap: 3px; min-width: 340px; width: 100%; }
     .corner {}
-    .col-header, .row-header { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: var(--grey-label); display: flex; align-items: center; justify-content: center; height: 28px; }
-    .row-header { height: auto; }
-    .cell { aspect-ratio: 1; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; transition: transform 0.15s; cursor: default; background: var(--grey-cell); color: transparent; position: relative; }
+    .col-header { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: var(--grey-label); display: flex; align-items: center; justify-content: center; height: 26px; }
+    .row-header { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: var(--grey-label); display: flex; align-items: center; justify-content: center; }
+    .cell { aspect-ratio: 1; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; transition: transform 0.15s; cursor: default; background: var(--grey-cell); color: transparent; position: relative; min-width: 28px; }
     .cell.active { background: var(--green); color: var(--navy); cursor: pointer; }
     .cell.active:hover { transform: scale(1.08); background: var(--green-dark); z-index: 10; }
     .cell[data-tip]:hover::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%); background: var(--navy); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; white-space: nowrap; padding: 4px 8px; border-radius: 4px; z-index: 100; pointer-events: none; }
     .games-count { margin-top: 8px; font-size: 12px; color: var(--grey-label); font-weight: 500; }
     .games-count strong { color: var(--text); font-weight: 700; }
-
-    /* ── Expandable game log ── */
-    .gamelog-toggle {
-      margin-top: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      user-select: none;
-      width: fit-content;
-    }
-    .gamelog-toggle-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--grey-label);
-    }
+    .gamelog-toggle { margin-top: 16px; display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; width: fit-content; }
+    .gamelog-toggle-label { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-label); }
     .gamelog-toggle:hover .gamelog-toggle-label { color: var(--text); }
-    .toggle-arrow {
-      font-size: 10px; color: var(--grey-label);
-      transition: transform 0.2s;
-      display: inline-block;
-    }
+    .toggle-arrow { font-size: 10px; color: var(--grey-label); transition: transform 0.2s; display: inline-block; }
     .toggle-arrow.open { transform: rotate(180deg); }
-
-    .gamelog {
-      display: none;
-      margin-top: 10px;
-      border-top: 1px solid var(--border);
-      padding-top: 10px;
-    }
+    .gamelog { display: none; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
     .gamelog.open { display: block; }
-
     .game-list { display: flex; flex-direction: column; gap: 4px; }
-    .game-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 7px 10px; background: var(--grey-light);
-      border-radius: 5px; font-size: 12px; flex-wrap: wrap;
-    }
+    .game-row { display: flex; align-items: center; gap: 10px; padding: 7px 10px; background: var(--grey-light); border-radius: 5px; font-size: 12px; flex-wrap: wrap; }
     .game-square { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 800; color: var(--green-dark); min-width: 32px; }
-    .game-round { font-size: 11px; font-weight: 600; color: var(--grey-label); min-width: 60px; }
-    .game-desc { flex: 1; color: var(--text); font-weight: 500; min-width: 180px; }
+    .game-round { font-size: 11px; font-weight: 600; color: var(--grey-label); min-width: 54px; }
+    .game-desc { flex: 1; color: var(--text); font-weight: 500; min-width: 160px; }
     .game-date { font-size: 11px; color: var(--grey-label); white-space: nowrap; }
-
     .empty-state { padding: 24px 0; color: var(--grey-label); font-size: 13px; }
-
     .loading { display: flex; align-items: center; justify-content: center; height: 260px; color: var(--grey-label); font-size: 13px; gap: 8px; }
     .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── Desktop wider ── */
-    @media (min-width: 500px) {
-      .cell { font-size: 15px; }
-    }
-    @media (min-width: 700px) {
-      .main { padding: 16px 28px 28px; }
-      .filters { padding: 10px 28px; }
-      .cell { font-size: 18px; }
-    }
+    @media (min-width: 480px) { .cell { font-size: 16px; } }
+    @media (min-width: 640px) { .main { padding: 16px 20px 24px; } .filters { padding: 10px 20px; } .cell { font-size: 18px; } .grid-container { grid-template-columns: 28px repeat(10, 1fr); } }
+    @media (min-width: 860px) { .main { padding: 16px 28px 28px; } .filters { padding: 10px 28px; } .cell { font-size: 20px; } }
   </style>
 </head>
 <body>
-
 <div class="filters" id="filters">
   <span class="filter-label">Round:</span>
   <button class="filter-btn active" data-round="all">All</button>
@@ -140,14 +72,11 @@
   <button class="filter-btn" data-round="Final Four">FF</button>
   <button class="filter-btn" data-round="Championship">NT</button>
 </div>
-
 <div class="main" id="main-content">
   <div class="loading"><div class="spinner"></div> Loading...</div>
 </div>
-
 <script>
 const JSON_URL = './squares.json';
-const ROUND_ORDER = ["First Four","Round of 64","Round of 32","Sweet 16","Elite 8","Final Four","Championship"];
 let appData = null;
 let activeRounds = new Set(['all']);
 let logOpen = false;
@@ -177,11 +106,7 @@ function mergeGrids(data, rounds) {
 }
 
 function buildGrid(grid, total) {
-  let h = `<div class="axis-row"><span class="axis-label">Loser's last digit →</span></div>
-    <div class="grid-with-label">
-    <div class="winner-label">Winner's last digit</div>
-    <div class="grid-wrap"><div class="grid-container">
-    <div class="corner"></div>`;
+  let h = `<div class="grid-outer"><div class="axis-row"><span class="axis-label">Loser's last digit →</span></div><div class="grid-with-label"><div class="winner-label">Winner's last digit</div><div class="grid-wrap"><div class="grid-container"><div class="corner"></div>`;
   for (let l=0;l<10;l++) h += `<div class="col-header">${l}</div>`;
   for (let w=0;w<10;w++) {
     h += `<div class="row-header">${w}</div>`;
@@ -193,107 +118,66 @@ function buildGrid(grid, total) {
       h += `<div class="${cls}" data-tip="${tip}">${count>0?count:''}</div>`;
     }
   }
-  h += `</div></div></div>`;
+  h += `</div></div></div></div>`;
   h += `<div class="games-count">Showing <strong>${total}</strong> game${total!==1?'s':''}</div>`;
   return h;
 }
 
 function buildGameLog(games, rounds) {
-  let filtered = (games || []).slice().reverse(); // oldest first -> newest first already reversed in json
+  let filtered = (games || []);
   if (!rounds.has('all')) filtered = filtered.filter(g => rounds.has(g.round));
-
-  const ROUND_SHORT = {
-    "First Four": "First 4", "Round of 64": "R64", "Round of 32": "R32",
-    "Sweet 16": "S16", "Elite 8": "E8", "Final Four": "FF", "Championship": "NT"
-  };
-
+  const RS = {"First Four":"First 4","Round of 64":"R64","Round of 32":"R32","Sweet 16":"S16","Elite 8":"E8","Final Four":"FF","Championship":"NT"};
   const count = filtered.length;
   const logHtml = count === 0
     ? `<div class="empty-state">No games for selected rounds yet.</div>`
     : `<div class="game-list">${filtered.map(g => {
-        const [wd, ld] = g.square.split('/');
-        return `<div class="game-row">
-          <div class="game-square">${g.square}</div>
-          <div class="game-round">${ROUND_SHORT[g.round]||g.round||''}</div>
-          <div class="game-desc">${g.winner} ${g.winnerScore}, ${g.loser} ${g.loserScore}: Winner ${wd}, Loser ${ld}</div>
-          <div class="game-date">${formatShortDate(g.date)}</div>
-        </div>`;
+        const [wd,ld] = g.square.split('/');
+        return `<div class="game-row"><div class="game-square">${g.square}</div><div class="game-round">${RS[g.round]||g.round||''}</div><div class="game-desc">${g.winner} ${g.winnerScore}, ${g.loser} ${g.loserScore}: Winner ${wd}, Loser ${ld}</div><div class="game-date">${formatShortDate(g.date)}</div></div>`;
       }).join('')}</div>`;
-
-  return `
-    <div class="gamelog-toggle" id="gamelog-toggle">
-      <span class="gamelog-toggle-label">Games (${count})</span>
-      <span class="toggle-arrow ${logOpen ? 'open' : ''}" id="toggle-arrow">▼</span>
-    </div>
-    <div class="gamelog ${logOpen ? 'open' : ''}" id="gamelog">
-      ${logHtml}
-    </div>`;
+  return `<div class="gamelog-toggle" id="gamelog-toggle"><span class="gamelog-toggle-label">Games (${count})</span><span class="toggle-arrow ${logOpen?'open':''}" id="toggle-arrow">▼</span></div><div class="gamelog ${logOpen?'open':''}" id="gamelog">${logHtml}</div>`;
 }
 
 function renderGrid() {
   if (!appData) return;
   const {grid, total} = mergeGrids(appData, activeRounds);
-  document.getElementById('main-content').innerHTML =
-    buildGrid(grid, total) + buildGameLog(appData.recentGames, activeRounds);
-
-  // Wire toggle
+  document.getElementById('main-content').innerHTML = buildGrid(grid, total) + buildGameLog(appData.recentGames, activeRounds);
   const toggle = document.getElementById('gamelog-toggle');
-  if (toggle) {
-    toggle.addEventListener('click', () => {
-      logOpen = !logOpen;
-      document.getElementById('gamelog').classList.toggle('open', logOpen);
-      document.getElementById('toggle-arrow').classList.toggle('open', logOpen);
-    });
-  }
-}
-
-function updateFilterButtons() {
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.classList.toggle('active', activeRounds.has(btn.dataset.round));
+  if (toggle) toggle.addEventListener('click', () => {
+    logOpen = !logOpen;
+    document.getElementById('gamelog').classList.toggle('open', logOpen);
+    document.getElementById('toggle-arrow').classList.toggle('open', logOpen);
   });
 }
 
+function updateFilterButtons() {
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', activeRounds.has(btn.dataset.round)));
+}
+
 function toggleRound(round) {
-  if (round === 'all') {
-    activeRounds = new Set(['all']);
-  } else {
+  if (round === 'all') { activeRounds = new Set(['all']); }
+  else {
     activeRounds.delete('all');
-    if (activeRounds.has(round)) {
-      activeRounds.delete(round);
-      if (activeRounds.size === 0) activeRounds = new Set(['all']);
-    } else {
-      activeRounds.add(round);
-    }
+    if (activeRounds.has(round)) { activeRounds.delete(round); if (activeRounds.size === 0) activeRounds = new Set(['all']); }
+    else activeRounds.add(round);
   }
   updateFilterButtons();
   renderGrid();
 }
 
-// Wire filter buttons (static — always present)
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => toggleRound(btn.dataset.round));
-});
-
-// Hide round buttons that have no data yet
-function updateRoundButtonVisibility(data) {
-  document.querySelectorAll('.filter-btn[data-round]').forEach(btn => {
-    const r = btn.dataset.round;
-    if (r === 'all') return;
-    const hasData = data.rounds && data.rounds[r];
-    btn.style.opacity = hasData ? '1' : '0.4';
-  });
-}
+document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => toggleRound(btn.dataset.round)));
 
 async function loadData() {
   try {
     const resp = await fetch(`${JSON_URL}?t=${Date.now()}`);
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     appData = await resp.json();
-    updateRoundButtonVisibility(appData);
+    document.querySelectorAll('.filter-btn[data-round]').forEach(btn => {
+      const r = btn.dataset.round;
+      if (r !== 'all') btn.style.opacity = (appData.rounds && appData.rounds[r]) ? '1' : '0.4';
+    });
     renderGrid();
   } catch(e) {
-    document.getElementById('main-content').innerHTML =
-      `<div class="loading" style="color:#cc0000">Failed to load — retrying...</div>`;
+    document.getElementById('main-content').innerHTML = `<div class="loading" style="color:#cc0000">Failed to load — retrying...</div>`;
     setTimeout(loadData, 10000);
   }
 }
