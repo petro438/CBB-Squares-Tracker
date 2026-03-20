@@ -52,23 +52,26 @@ def fetch_tournament_games():
     return all_games
 
 def get_round(game_notes):
-    """Extract round name from gameNotes string."""
     if not game_notes:
         return "Unknown"
-    notes = game_notes.lower()
-    if "first four" in notes:
+    # Parse the suffix after the last " - " to avoid matching
+    # "Championship" in the prefix of every game's notes
+    parts = game_notes.strip().split(" - ")
+    suffix = parts[-1].lower().strip() if parts else ""
+
+    if "first four" in suffix:
         return "First Four"
-    if "first round" in notes:
+    if "1st round" in suffix or "first round" in suffix:
         return "Round of 64"
-    if "second round" in notes:
+    if "2nd round" in suffix or "second round" in suffix:
         return "Round of 32"
-    if "sweet sixteen" in notes or "sweet 16" in notes:
+    if "sweet sixteen" in suffix or "sweet 16" in suffix:
         return "Sweet 16"
-    if "elite eight" in notes or "elite 8" in notes:
+    if "elite eight" in suffix or "elite 8" in suffix:
         return "Elite 8"
-    if "final four" in notes:
+    if "final four" in suffix:
         return "Final Four"
-    if "championship" in notes or "national championship" in notes:
+    if "national championship" in suffix or suffix == "championship":
         return "Championship"
     return "Unknown"
 
