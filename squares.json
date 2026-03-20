@@ -1,7 +1,7 @@
 {
-  "updated": "2026-03-20T20:54:58Z",
+  "updated": "2026-03-20T21:21:40Z",
   "season": 2026,
-  "totalGames": 24,
+  "totalGames": 25,
   "grid": {
     "0": {
       "0": 0,
@@ -104,7 +104,7 @@
       "1": 0,
       "2": 0,
       "3": 0,
-      "4": 0,
+      "4": 1,
       "5": 0,
       "6": 1,
       "7": 1,
@@ -349,7 +349,7 @@
         "1": 0,
         "2": 0,
         "3": 0,
-        "4": 0,
+        "4": 1,
         "5": 0,
         "6": 0,
         "7": 1,
@@ -371,6 +371,15 @@
     }
   },
   "recentGames": [
+    {
+      "date": "2026-03-20",
+      "round": "Round of 64",
+      "winner": "Iowa State",
+      "winnerScore": 108,
+      "loser": "Tennessee State",
+      "loserScore": 74,
+      "square": "8/4"
+    },
     {
       "date": "2026-03-20",
       "round": "Round of 64",
@@ -446,20 +455,20 @@
     {
       "date": "2026-03-19",
       "round": "Round of 64",
-      "winner": "Texas",
-      "winnerScore": 79,
-      "loser": "BYU",
-      "loserScore": 71,
-      "square": "9/1"
-    },
-    {
-      "date": "2026-03-19",
-      "round": "Round of 64",
       "winner": "Texas A&M",
       "winnerScore": 63,
       "loser": "Saint Mary's",
       "loserScore": 50,
       "square": "3/0"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Round of 64",
+      "winner": "Texas",
+      "winnerScore": 79,
+      "loser": "BYU",
+      "loserScore": 71,
+      "square": "9/1"
     },
     {
       "date": "2026-03-19",
