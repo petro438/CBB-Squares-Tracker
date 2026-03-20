@@ -2,8 +2,8 @@ name: Update Squares Data
 
 on:
   schedule:
-    - cron: '*/30 * * * *'   # every 30 minutes
-  workflow_dispatch:           # allow manual trigger from GitHub UI
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -28,7 +28,7 @@ jobs:
           CBB_API_KEY: ${{ secrets.CBB_API_KEY }}
         run: python update-squares.py
 
-            - name: Commit and push squares.json
+      - name: Commit and push squares.json
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
