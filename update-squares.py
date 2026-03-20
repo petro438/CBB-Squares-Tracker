@@ -143,7 +143,7 @@ def main():
         "totalGames": total,
         "grid":       grid,
         "rounds":     rounds,
-        "recentGames": game_log[-10:][::-1],  # last 10, newest first
+        "recentGames": game_log[::-1],  # all games, newest first
     }
 
     out_path = os.path.join(os.path.dirname(__file__), "..", "squares.json")
