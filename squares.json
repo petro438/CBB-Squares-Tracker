@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-20T15:28:46Z",
+  "updated": "2026-03-20T15:34:03Z",
   "season": 2026,
   "totalGames": 20,
   "grid": {
@@ -247,7 +247,7 @@
         "9": 1
       }
     },
-    "Championship": {
+    "Round of 64": {
       "0": {
         "0": 0,
         "1": 0,
@@ -373,7 +373,7 @@
   "recentGames": [
     {
       "date": "2026-03-20",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Gonzaga",
       "winnerScore": 73,
       "loser": "Kennesaw State",
@@ -382,7 +382,7 @@
     },
     {
       "date": "2026-03-20",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Houston",
       "winnerScore": 78,
       "loser": "Idaho",
@@ -391,7 +391,7 @@
     },
     {
       "date": "2026-03-20",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Saint Louis",
       "winnerScore": 102,
       "loser": "Georgia",
@@ -400,7 +400,7 @@
     },
     {
       "date": "2026-03-20",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Illinois",
       "winnerScore": 105,
       "loser": "Pennsylvania",
@@ -409,7 +409,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Texas A&M",
       "winnerScore": 63,
       "loser": "Saint Mary's",
@@ -418,7 +418,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Texas",
       "winnerScore": 79,
       "loser": "BYU",
@@ -427,7 +427,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Michigan",
       "winnerScore": 101,
       "loser": "Howard",
@@ -436,7 +436,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "VCU",
       "winnerScore": 82,
       "loser": "North Carolina",
@@ -445,7 +445,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Michigan State",
       "winnerScore": 92,
       "loser": "North Dakota State",
@@ -454,7 +454,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Arkansas",
       "winnerScore": 97,
       "loser": "Hawai'i",
@@ -463,7 +463,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Vanderbilt",
       "winnerScore": 78,
       "loser": "McNeese",
@@ -472,7 +472,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Duke",
       "winnerScore": 71,
       "loser": "Siena",
@@ -481,7 +481,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "High Point",
       "winnerScore": 83,
       "loser": "Wisconsin",
@@ -490,7 +490,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Louisville",
       "winnerScore": 83,
       "loser": "South Florida",
@@ -499,7 +499,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "Nebraska",
       "winnerScore": 76,
       "loser": "Troy",
@@ -508,7 +508,7 @@
     },
     {
       "date": "2026-03-19",
-      "round": "Championship",
+      "round": "Round of 64",
       "winner": "TCU",
       "winnerScore": 66,
       "loser": "Ohio State",
