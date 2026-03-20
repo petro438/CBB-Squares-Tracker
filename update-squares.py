@@ -32,6 +32,7 @@ def fetch_tournament_games():
         params = {
             "season":         2026,
             "seasonType":     "postseason",
+            "tournament":     "NCAA",
             "status":         "final",
             "startDateRange": start,
             "endDateRange":   end,
@@ -42,8 +43,7 @@ def fetch_tournament_games():
             games = resp.json()
             for g in games:
                 gid = g.get("id")
-                # Filter to NCAA tournament only client-side
-                if g.get("tournament") == "NCAA" and gid not in seen:
+                if gid not in seen:
                     seen.add(gid)
                     all_games.append(g)
         except Exception as e:
@@ -51,8 +51,34 @@ def fetch_tournament_games():
 
     return all_games
 
+def get_round(game_notes):
+    """Extract round name from gameNotes string."""
+    if not game_notes:
+        return "Unknown"
+    notes = game_notes.lower()
+    if "first four" in notes:
+        return "First Four"
+    if "first round" in notes:
+        return "Round of 64"
+    if "second round" in notes:
+        return "Round of 32"
+    if "sweet sixteen" in notes or "sweet 16" in notes:
+        return "Sweet 16"
+    if "elite eight" in notes or "elite 8" in notes:
+        return "Elite 8"
+    if "final four" in notes:
+        return "Final Four"
+    if "championship" in notes or "national championship" in notes:
+        return "Championship"
+    return "Unknown"
+
+ROUND_ORDER = ["First Four", "Round of 64", "Round of 32", "Sweet 16", "Elite 8", "Final Four", "Championship", "Unknown"]
+
 def build_grid(games):
+    # Overall grid
     grid = defaultdict(lambda: defaultdict(int))
+    # Per-round grids
+    round_grids = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     total = 0
     game_log = []
 
@@ -71,8 +97,10 @@ def build_grid(games):
         loser_pts  = min(hp, ap)
         wd = winner_pts % 10
         ld = loser_pts  % 10
+        round_name = get_round(g.get("gameNotes", ""))
 
         grid[wd][ld] += 1
+        round_grids[round_name][wd][ld] += 1
         total += 1
 
         winner_team = g.get("homeTeam") if hp > ap else g.get("awayTeam")
@@ -80,6 +108,7 @@ def build_grid(games):
 
         game_log.append({
             "date":        g.get("startDate", "")[:10],
+            "round":       round_name,
             "winner":      winner_team,
             "winnerScore": winner_pts,
             "loser":       loser_team,
@@ -87,31 +116,37 @@ def build_grid(games):
             "square":      f"{wd}/{ld}",
         })
 
-    # Convert to plain dict for JSON
-    grid_out = {}
-    for w in range(10):
-        grid_out[str(w)] = {}
-        for l in range(10):
-            grid_out[str(w)][str(l)] = grid[w][l]
+    # Convert to plain dicts for JSON
+    def grid_to_dict(g):
+        out = {}
+        for w in range(10):
+            out[str(w)] = {str(l): g[w][l] for l in range(10)}
+        return out
 
-    return grid_out, total, game_log
+    rounds_out = {}
+    for round_name in ROUND_ORDER:
+        if round_name in round_grids:
+            rounds_out[round_name] = grid_to_dict(round_grids[round_name])
+
+    return grid_to_dict(grid), total, game_log, rounds_out
 
 def main():
     print("Fetching tournament games...")
     games = fetch_tournament_games()
     print(f"  {len(games)} games fetched")
 
-    grid, total, game_log = build_grid(games)
+    grid, total, game_log, rounds = build_grid(games)
 
     output = {
-        "updated":   datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "season":    2026,
+        "updated":    datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "season":     2026,
         "totalGames": total,
-        "grid":      grid,
+        "grid":       grid,
+        "rounds":     rounds,
         "recentGames": game_log[-10:][::-1],  # last 10, newest first
     }
 
-    out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "squares.json")
+    out_path = os.path.join(os.path.dirname(__file__), "..", "squares.json")
     with open(out_path, "w") as f:
         json.dump(output, f, indent=2)
 
