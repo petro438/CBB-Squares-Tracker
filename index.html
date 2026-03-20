@@ -55,7 +55,7 @@
     }
     .pill:hover { border-color: var(--green); color: var(--text); }
     .pill.on { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 600; }
-    .pill.dim { opacity: 0.35; pointer-events: none; }
+    .pill.dim { opacity: 0.35; }
 
     /* ── Grid ── */
     .grid-wrap {
@@ -67,9 +67,9 @@
       margin-bottom: 3px;
     }
     .axis-top {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
@@ -81,9 +81,9 @@
     }
 
     .axis-side {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
       text-transform: uppercase;
       letter-spacing: 0.06em;
       writing-mode: vertical-rl;
@@ -239,11 +239,16 @@ let data = null, active = new Set(['all']), open = false;
 
 document.querySelectorAll('.pill').forEach(p => p.addEventListener('click', () => {
   const r = p.dataset.r;
-  if (r === 'all') { active = new Set(['all']); }
-  else {
+  if (r === 'all') {
+    active = new Set(['all']);
+  } else {
     active.delete('all');
-    active.has(r) ? active.delete(r) : active.add(r);
-    if (active.size === 0) active = new Set(['all']);
+    if (active.has(r)) {
+      active.delete(r);
+      if (active.size === 0) active = new Set(['all']);
+    } else {
+      active.add(r);
+    }
   }
   document.querySelectorAll('.pill').forEach(x => x.classList.toggle('on', active.has(x.dataset.r)));
   render();
