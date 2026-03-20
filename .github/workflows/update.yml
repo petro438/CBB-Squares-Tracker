@@ -1,18 +1,4 @@
-name: Update Squares Data
-
-on:
-  schedule:
-    - cron: '*/30 * * * *'
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-jobs:
-  update:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
+- name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -23,6 +9,11 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
+      - name: Sync with remote
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+
       - name: Run update script
         env:
           CBB_API_KEY: ${{ secrets.CBB_API_KEY }}
@@ -32,8 +23,6 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git reset --hard origin/main
           git add squares.json
           git diff --staged --quiet || git commit -m "Update squares data [$(date -u '+%Y-%m-%d %H:%M UTC')]"
           git push
