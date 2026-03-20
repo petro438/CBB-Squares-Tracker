@@ -2,188 +2,390 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>March Madness Squares Tracker</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>March Madness Squares</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --green: #00c358; --green-dark: #00a349;
-      --navy: #0d1f2d;
-      --grey-cell: #e8ecf0; --grey-label: #8a9bb0;
-      --grey-light: #f2f5f8; --text: #1a2332;
-      --border: #d0d9e3; --white: #ffffff;
+      --green: #00c358;
+      --green-hover: #00a349;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --bg: #f9fafb;
+      --white: #fff;
+      --cell-empty: #f3f4f6;
     }
-    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); margin: 0; padding: 0; }
-    .filters { padding: 10px 16px; background: var(--grey-light); border-bottom: 1px solid var(--border); display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
-    .filter-label { font-size: 13px; font-weight: 500; color: var(--grey-label); margin-right: 2px; }
-    .filter-btn { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 4px 12px; border-radius: 4px; border: 1.5px solid var(--border); background: var(--white); color: var(--grey-label); cursor: pointer; transition: all 0.15s; user-select: none; }
-    .filter-btn:hover { border-color: var(--green); color: var(--text); }
-    .filter-btn.active { background: var(--green); border-color: var(--green); color: var(--white); }
-    .main { padding: 14px 12px 20px; }
-    .grid-outer { width: 100%; }
-    .grid-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .axis-row { margin-bottom: 4px; margin-left: 36px; }
-    .axis-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-label); }
-    .grid-with-label { display: flex; gap: 4px; align-items: center; }
-    .winner-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-label); writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; flex-shrink: 0; }
-    .grid-container { display: grid; grid-template-columns: 26px repeat(10, 1fr); gap: 3px; min-width: 340px; width: 100%; }
-    .corner {}
-    .col-header { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: var(--grey-label); display: flex; align-items: center; justify-content: center; height: 26px; }
-    .row-header { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: var(--grey-label); display: flex; align-items: center; justify-content: center; }
-    .cell { aspect-ratio: 1; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; transition: transform 0.15s; cursor: default; background: var(--grey-cell); color: transparent; position: relative; min-width: 28px; }
-    .cell.active { background: var(--green); color: var(--navy); cursor: pointer; }
-    .cell.active:hover { transform: scale(1.08); background: var(--green-dark); z-index: 10; }
-    .cell[data-tip]:hover::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%); background: var(--navy); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; white-space: nowrap; padding: 4px 8px; border-radius: 4px; z-index: 100; pointer-events: none; }
-    .games-count { margin-top: 8px; font-size: 12px; color: var(--grey-label); font-weight: 500; }
-    .games-count strong { color: var(--text); font-weight: 700; }
-    .gamelog-toggle { margin-top: 16px; display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; width: fit-content; }
-    .gamelog-toggle-label { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-label); }
-    .gamelog-toggle:hover .gamelog-toggle-label { color: var(--text); }
-    .toggle-arrow { font-size: 10px; color: var(--grey-label); transition: transform 0.2s; display: inline-block; }
-    .toggle-arrow.open { transform: rotate(180deg); }
-    .gamelog { display: none; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
-    .gamelog.open { display: block; }
-    .game-list { display: flex; flex-direction: column; gap: 4px; }
-    .game-row { display: flex; align-items: center; gap: 10px; padding: 7px 10px; background: var(--grey-light); border-radius: 5px; font-size: 12px; flex-wrap: wrap; }
-    .game-square { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 800; color: var(--green-dark); min-width: 32px; }
-    .game-round { font-size: 11px; font-weight: 600; color: var(--grey-label); min-width: 54px; }
-    .game-desc { flex: 1; color: var(--text); font-weight: 500; min-width: 160px; }
-    .game-date { font-size: 11px; color: var(--grey-label); white-space: nowrap; }
-    .empty-state { padding: 24px 0; color: var(--grey-label); font-size: 13px; }
-    .loading { display: flex; align-items: center; justify-content: center; height: 260px; color: var(--grey-label); font-size: 13px; gap: 8px; }
-    .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @media (min-width: 480px) { .cell { font-size: 16px; } }
-    @media (min-width: 640px) { .main { padding: 16px 20px 24px; } .filters { padding: 10px 20px; } .cell { font-size: 18px; } .grid-container { grid-template-columns: 28px repeat(10, 1fr); } }
-    @media (min-width: 860px) { .main { padding: 16px 28px 28px; } .filters { padding: 10px 28px; } .cell { font-size: 20px; } }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      padding: 16px;
+    }
+
+    /* ── Round pills ── */
+    .rounds {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .rounds-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-right: 4px;
+    }
+
+    .pill {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 14px;
+      cursor: pointer;
+      transition: all 0.12s;
+      line-height: 1.4;
+    }
+    .pill:hover { border-color: var(--green); color: var(--text); }
+    .pill.on { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 600; }
+    .pill.dim { opacity: 0.35; pointer-events: none; }
+
+    /* ── Grid ── */
+    .grid-section { width: 100%; }
+
+    .grid-labels-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2px;
+      padding-left: 32px;
+    }
+
+    .axis-top {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .grid-body {
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .axis-side {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      white-space: nowrap;
+      flex-shrink: 0;
+      align-self: center;
+    }
+
+    .grid-inner { flex: 1; min-width: 0; }
+
+    .grid-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 3px;
+    }
+
+    .grid-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      text-align: center;
+      padding: 2px 0;
+      width: calc(100% / 11);
+    }
+
+    .grid-table th.row-th {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .grid-table td {
+      text-align: center;
+      vertical-align: middle;
+      padding: 0;
+    }
+
+    .grid-table td.row-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .sq {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 4px;
+      background: var(--cell-empty);
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(11px, 2vw, 17px);
+      font-weight: 500;
+      color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s;
+      position: relative;
+      cursor: default;
+    }
+    .sq.hit {
+      background: var(--green);
+      color: #003d1a;
+    }
+    .sq.hit:hover {
+      transform: scale(1.1);
+      background: var(--green-hover);
+      z-index: 5;
+    }
+
+    /* tooltip */
+    .sq[data-t]:hover::after {
+      content: attr(data-t);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+      padding: 4px 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .count-label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .count-label strong { color: var(--text); }
+
+    /* ── Game log ── */
+    .log-toggle {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      user-select: none;
+    }
+    .log-toggle:hover { color: var(--text); }
+    .log-arrow { display: inline-block; transition: transform 0.15s; font-size: 9px; }
+    .log-arrow.open { transform: rotate(180deg); }
+
+    .log-body {
+      display: none;
+      margin-top: 10px;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+    .log-body.open { display: block; }
+
+    .log-row {
+      display: grid;
+      grid-template-columns: 40px 52px 1fr 44px;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 8px;
+      border-radius: 5px;
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+    .log-row:hover { background: var(--bg); }
+
+    .log-sq { font-family: 'DM Mono', monospace; font-weight: 600; font-size: 13px; color: var(--green-hover); }
+    .log-round { font-size: 11px; font-weight: 600; color: var(--muted); }
+    .log-desc { color: var(--text); }
+    .log-date { font-size: 11px; color: var(--muted); text-align: right; }
+
+    /* loading */
+    .loading {
+      display: flex; align-items: center; justify-content: center;
+      height: 300px; gap: 10px; color: var(--muted); font-size: 13px;
+    }
+    .spin {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: s 0.7s linear infinite;
+    }
+    @keyframes s { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
-<div class="filters" id="filters">
-  <span class="filter-label">Round:</span>
-  <button class="filter-btn active" data-round="all">All</button>
-  <button class="filter-btn" data-round="First Four">First 4</button>
-  <button class="filter-btn" data-round="Round of 64">R64</button>
-  <button class="filter-btn" data-round="Round of 32">R32</button>
-  <button class="filter-btn" data-round="Sweet 16">S16</button>
-  <button class="filter-btn" data-round="Elite 8">E8</button>
-  <button class="filter-btn" data-round="Final Four">FF</button>
-  <button class="filter-btn" data-round="Championship">NT</button>
+
+<div class="rounds" id="rounds">
+  <span class="rounds-label">Round</span>
+  <button class="pill on" data-r="all">All</button>
+  <button class="pill" data-r="First Four">First 4</button>
+  <button class="pill" data-r="Round of 64">R64</button>
+  <button class="pill" data-r="Round of 32">R32</button>
+  <button class="pill" data-r="Sweet 16">S16</button>
+  <button class="pill" data-r="Elite 8">E8</button>
+  <button class="pill" data-r="Final Four">FF</button>
+  <button class="pill" data-r="Championship">NT</button>
 </div>
-<div class="main" id="main-content">
-  <div class="loading"><div class="spinner"></div> Loading...</div>
+
+<div id="content">
+  <div class="loading"><div class="spin"></div>Loading...</div>
 </div>
+
 <script>
-const JSON_URL = './squares.json';
-let appData = null;
-let activeRounds = new Set(['all']);
-let logOpen = false;
+const URL = './squares.json';
+const RS = {"First Four":"First 4","Round of 64":"R64","Round of 32":"R32","Sweet 16":"S16","Elite 8":"E8","Final Four":"FF","Championship":"NT"};
+let data = null;
+let active = new Set(['all']);
+let open = false;
 
-function formatShortDate(str) {
-  if (!str) return '';
-  const [y,m,d] = str.split('-');
-  return `${parseInt(m)}/${parseInt(d)}`;
-}
-
-function mergeGrids(data, rounds) {
-  if (rounds.has('all') || !data.rounds) return { grid: data.grid, total: data.totalGames };
-  const merged = {};
-  for (let w=0;w<10;w++) { merged[w]={}; for (let l=0;l<10;l++) merged[w][l]=0; }
-  let total = 0;
-  for (const round of rounds) {
-    const rg = data.rounds[round];
-    if (!rg) continue;
-    for (let w=0;w<10;w++) for (let l=0;l<10;l++) {
-      const v = parseInt(rg[w]?.[l]||0);
-      merged[w][l] += v; total += v;
-    }
+// Round pills
+document.querySelectorAll('.pill').forEach(p => p.addEventListener('click', () => {
+  const r = p.dataset.r;
+  if (r === 'all') {
+    active = new Set(['all']);
+  } else {
+    active.delete('all');
+    active.has(r) ? active.delete(r) : active.add(r);
+    if (active.size === 0) active = new Set(['all']);
   }
-  const out = {};
-  for (let w=0;w<10;w++) { out[String(w)]={};  for (let l=0;l<10;l++) out[String(w)][String(l)]=merged[w][l]; }
-  return { grid: out, total };
+  document.querySelectorAll('.pill').forEach(x => x.classList.toggle('on', active.has(x.dataset.r)));
+  render();
+}));
+
+function getGrid() {
+  if (active.has('all') || !data.rounds) return { grid: data.grid, total: data.totalGames };
+  const m = {};
+  for (let w=0;w<10;w++){m[w]={};for(let l=0;l<10;l++)m[w][l]=0;}
+  let t=0;
+  for (const r of active) {
+    const rg = data.rounds[r]; if (!rg) continue;
+    for(let w=0;w<10;w++)for(let l=0;l<10;l++){const v=parseInt(rg[w]?.[l]||0);m[w][l]+=v;t+=v;}
+  }
+  const out={};
+  for(let w=0;w<10;w++){out[String(w)]={};for(let l=0;l<10;l++)out[String(w)][String(l)]=m[w][l];}
+  return {grid:out,total:t};
 }
 
-function buildGrid(grid, total) {
-  let h = `<div class="grid-outer"><div class="axis-row"><span class="axis-label">Loser's last digit →</span></div><div class="grid-with-label"><div class="winner-label">Winner's last digit</div><div class="grid-wrap"><div class="grid-container"><div class="corner"></div>`;
-  for (let l=0;l<10;l++) h += `<div class="col-header">${l}</div>`;
+function render() {
+  if (!data) return;
+  const {grid, total} = getGrid();
+
+  // Build table HTML
+  let tbl = `<table class="grid-table"><thead><tr><th class="row-th"></th>`;
+  for (let l=0;l<10;l++) tbl += `<th>${l}</th>`;
+  tbl += `</tr></thead><tbody>`;
   for (let w=0;w<10;w++) {
-    h += `<div class="row-header">${w}</div>`;
+    tbl += `<tr><td class="row-label">${w}</td>`;
     for (let l=0;l<10;l++) {
-      const count = parseInt((grid[w]||{})[l]||0);
-      const pct = total>0 ? ((count/total)*100).toFixed(1) : '0.0';
-      const cls = count>0 ? 'cell active' : 'cell';
-      const tip = count>0 ? `W=${w} / L=${l}: ${count} game${count!==1?'s':''} (${pct}%)` : `W=${w} / L=${l}: no games yet`;
-      h += `<div class="${cls}" data-tip="${tip}">${count>0?count:''}</div>`;
+      const c = parseInt((grid[w]||{})[l]||0);
+      const pct = total>0?((c/total)*100).toFixed(1):'0.0';
+      const tip = c>0 ? `W=${w}/L=${l}: ${c} game${c!==1?'s':''} (${pct}%)` : `W=${w}/L=${l}: none yet`;
+      tbl += `<td><div class="sq${c>0?' hit':''}" data-t="${tip}">${c>0?c:''}</div></td>`;
     }
+    tbl += `</tr>`;
   }
-  h += `</div></div></div></div>`;
-  h += `<div class="games-count">Showing <strong>${total}</strong> game${total!==1?'s':''}</div>`;
-  return h;
-}
+  tbl += `</tbody></table>`;
 
-function buildGameLog(games, rounds) {
-  let filtered = (games || []);
-  if (!rounds.has('all')) filtered = filtered.filter(g => rounds.has(g.round));
-  const RS = {"First Four":"First 4","Round of 64":"R64","Round of 32":"R32","Sweet 16":"S16","Elite 8":"E8","Final Four":"FF","Championship":"NT"};
-  const count = filtered.length;
-  const logHtml = count === 0
-    ? `<div class="empty-state">No games for selected rounds yet.</div>`
-    : `<div class="game-list">${filtered.map(g => {
-        const [wd,ld] = g.square.split('/');
-        return `<div class="game-row"><div class="game-square">${g.square}</div><div class="game-round">${RS[g.round]||g.round||''}</div><div class="game-desc">${g.winner} ${g.winnerScore}, ${g.loser} ${g.loserScore}: Winner ${wd}, Loser ${ld}</div><div class="game-date">${formatShortDate(g.date)}</div></div>`;
-      }).join('')}</div>`;
-  return `<div class="gamelog-toggle" id="gamelog-toggle"><span class="gamelog-toggle-label">Games (${count})</span><span class="toggle-arrow ${logOpen?'open':''}" id="toggle-arrow">▼</span></div><div class="gamelog ${logOpen?'open':''}" id="gamelog">${logHtml}</div>`;
-}
+  // Game log
+  let games = (data.recentGames||[]);
+  if (!active.has('all')) games = games.filter(g=>active.has(g.round));
+  const cnt = games.length;
+  const rows = games.map(g=>{
+    const [wd,ld]=g.square.split('/');
+    const d=g.date?`${parseInt(g.date.split('-')[1])}/${parseInt(g.date.split('-')[2])}`:'';
+    return `<div class="log-row">
+      <div class="log-sq">${g.square}</div>
+      <div class="log-round">${RS[g.round]||g.round||''}</div>
+      <div class="log-desc">${g.winner} ${g.winnerScore}, ${g.loser} ${g.loserScore} — W${wd}/L${ld}</div>
+      <div class="log-date">${d}</div>
+    </div>`;
+  }).join('');
 
-function renderGrid() {
-  if (!appData) return;
-  const {grid, total} = mergeGrids(appData, activeRounds);
-  document.getElementById('main-content').innerHTML = buildGrid(grid, total) + buildGameLog(appData.recentGames, activeRounds);
-  const toggle = document.getElementById('gamelog-toggle');
-  if (toggle) toggle.addEventListener('click', () => {
-    logOpen = !logOpen;
-    document.getElementById('gamelog').classList.toggle('open', logOpen);
-    document.getElementById('toggle-arrow').classList.toggle('open', logOpen);
+  document.getElementById('content').innerHTML = `
+    <div class="grid-section">
+      <div class="grid-labels-row"><span class="axis-top">Loser's last digit →</span></div>
+      <div class="grid-body">
+        <span class="axis-side">Winner's last digit</span>
+        <div class="grid-inner">${tbl}</div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="count-label">Showing <strong>${total}</strong> game${total!==1?'s':''}</div>
+      <div class="log-toggle" id="lt">
+        Games (${cnt}) <span class="log-arrow${open?' open':''}" id="la">▼</span>
+      </div>
+    </div>
+    <div class="log-body${open?' open':''}" id="lb">${rows||'<div style="padding:12px 0;font-size:12px;color:#6b7280">No games yet for selected rounds.</div>'}</div>
+  `;
+
+  document.getElementById('lt').addEventListener('click', ()=>{
+    open=!open;
+    document.getElementById('lb').classList.toggle('open',open);
+    document.getElementById('la').classList.toggle('open',open);
   });
 }
 
-function updateFilterButtons() {
-  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', activeRounds.has(btn.dataset.round)));
-}
-
-function toggleRound(round) {
-  if (round === 'all') { activeRounds = new Set(['all']); }
-  else {
-    activeRounds.delete('all');
-    if (activeRounds.has(round)) { activeRounds.delete(round); if (activeRounds.size === 0) activeRounds = new Set(['all']); }
-    else activeRounds.add(round);
-  }
-  updateFilterButtons();
-  renderGrid();
-}
-
-document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => toggleRound(btn.dataset.round)));
-
-async function loadData() {
+async function load() {
   try {
-    const resp = await fetch(`${JSON_URL}?t=${Date.now()}`);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    appData = await resp.json();
-    document.querySelectorAll('.filter-btn[data-round]').forEach(btn => {
-      const r = btn.dataset.round;
-      if (r !== 'all') btn.style.opacity = (appData.rounds && appData.rounds[r]) ? '1' : '0.4';
+    const r = await fetch(`${URL}?t=${Date.now()}`);
+    if (!r.ok) throw new Error(r.status);
+    data = await r.json();
+    // dim pills with no data
+    document.querySelectorAll('.pill[data-r]').forEach(p=>{
+      const r=p.dataset.r;
+      if (r!=='all') p.classList.toggle('dim', !(data.rounds&&data.rounds[r]));
     });
-    renderGrid();
+    render();
   } catch(e) {
-    document.getElementById('main-content').innerHTML = `<div class="loading" style="color:#cc0000">Failed to load — retrying...</div>`;
-    setTimeout(loadData, 10000);
+    document.getElementById('content').innerHTML=`<div class="loading" style="color:#dc2626">Failed to load. Retrying...</div>`;
+    setTimeout(load,10000);
   }
 }
 
-loadData();
-setInterval(loadData, 5 * 60 * 1000);
+load();
+setInterval(load, 5*60*1000);
 </script>
 </body>
 </html>
