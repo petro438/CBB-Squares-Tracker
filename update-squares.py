@@ -146,7 +146,7 @@ def main():
         "recentGames": game_log[::-1],  # all games, newest first
     }
 
-    out_path = os.path.join(os.path.dirname(__file__), "..", "squares.json")
+out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "squares.json")
     with open(out_path, "w") as f:
         json.dump(output, f, indent=2)
 
