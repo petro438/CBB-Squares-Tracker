@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --green: #00c358;
       --green-hover: #00a349;
@@ -18,41 +17,38 @@
       --white: #fff;
       --cell-empty: #f3f4f6;
     }
-
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--white);
       color: var(--text);
-      padding: 16px;
+      padding: 12px 16px 16px;
     }
 
     /* ── Round pills ── */
     .rounds {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 20px;
+      gap: 5px;
+      margin-bottom: 14px;
       align-items: center;
     }
-
     .rounds-label {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-right: 4px;
+      margin-right: 3px;
     }
-
     .pill {
       font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
       color: var(--muted);
       background: var(--white);
       border: 1.5px solid var(--border);
       border-radius: 20px;
-      padding: 4px 14px;
+      padding: 3px 11px;
       cursor: pointer;
       transition: all 0.12s;
       line-height: 1.4;
@@ -62,17 +58,16 @@
     .pill.dim { opacity: 0.35; pointer-events: none; }
 
     /* ── Grid ── */
-    .grid-section { width: 100%; }
-
-    .grid-labels-row {
-      display: flex;
-      align-items: center;
-      margin-bottom: 2px;
-      padding-left: 32px;
+    .grid-wrap {
+      width: 100%;
     }
 
+    .axis-top-row {
+      padding-left: 28px;
+      margin-bottom: 3px;
+    }
     .axis-top {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       color: var(--muted);
       text-transform: uppercase;
@@ -81,12 +76,12 @@
 
     .grid-body {
       display: flex;
-      align-items: flex-start;
-      gap: 4px;
+      gap: 3px;
+      align-items: stretch;
     }
 
     .axis-side {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       color: var(--muted);
       text-transform: uppercase;
@@ -95,60 +90,51 @@
       transform: rotate(180deg);
       white-space: nowrap;
       flex-shrink: 0;
-      align-self: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .grid-inner { flex: 1; min-width: 0; }
+    .grid-inner { flex: 1; min-width: 0; overflow-x: auto; }
 
     .grid-table {
       width: 100%;
       border-collapse: separate;
       border-spacing: 3px;
+      table-layout: fixed;
     }
 
     .grid-table th {
       font-family: 'DM Mono', monospace;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       color: var(--muted);
       text-align: center;
-      padding: 2px 0;
-      width: calc(100% / 11);
+      padding: 2px 0 3px;
     }
+    .grid-table th:first-child { width: 22px; }
 
-    .grid-table th.row-th {
+    .grid-table td { padding: 0; text-align: center; }
+    .grid-table td.lbl {
       font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .grid-table td {
-      text-align: center;
-      vertical-align: middle;
-      padding: 0;
-    }
-
-    .grid-table td.row-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       color: var(--muted);
-      text-align: center;
+      width: 22px;
     }
 
     .sq {
-      display: block;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      border-radius: 4px;
-      background: var(--cell-empty);
-      font-family: 'DM Mono', monospace;
-      font-size: clamp(11px, 2vw, 17px);
-      font-weight: 500;
-      color: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 3px;
+      background: var(--cell-empty);
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      color: transparent;
+      font-size: clamp(10px, 1.6vw, 16px);
       transition: transform 0.1s;
       position: relative;
       cursor: default;
@@ -158,16 +144,14 @@
       color: #003d1a;
     }
     .sq.hit:hover {
-      transform: scale(1.1);
+      transform: scale(1.12);
       background: var(--green-hover);
       z-index: 5;
     }
-
-    /* tooltip */
     .sq[data-t]:hover::after {
       content: attr(data-t);
       position: absolute;
-      bottom: calc(100% + 6px);
+      bottom: calc(100% + 5px);
       left: 50%;
       transform: translateX(-50%);
       background: #111;
@@ -176,29 +160,23 @@
       font-size: 11px;
       font-weight: 500;
       white-space: nowrap;
-      padding: 4px 8px;
+      padding: 3px 7px;
       border-radius: 4px;
       pointer-events: none;
       z-index: 20;
     }
 
-    /* ── Footer ── */
+    /* ── Footer / log ── */
     .footer {
-      margin-top: 14px;
+      margin-top: 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
     }
-
-    .count-label {
-      font-size: 12px;
-      color: var(--muted);
-    }
+    .count-label { font-size: 12px; color: var(--muted); }
     .count-label strong { color: var(--text); }
-
-    /* ── Game log ── */
     .log-toggle {
       font-size: 12px;
       font-weight: 600;
@@ -206,52 +184,33 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       user-select: none;
     }
     .log-toggle:hover { color: var(--text); }
-    .log-arrow { display: inline-block; transition: transform 0.15s; font-size: 9px; }
-    .log-arrow.open { transform: rotate(180deg); }
-
-    .log-body {
-      display: none;
-      margin-top: 10px;
-      border-top: 1px solid var(--border);
-      padding-top: 10px;
-    }
+    .la { display: inline-block; font-size: 9px; transition: transform 0.15s; }
+    .la.open { transform: rotate(180deg); }
+    .log-body { display: none; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 8px; }
     .log-body.open { display: block; }
-
     .log-row {
       display: grid;
-      grid-template-columns: 40px 52px 1fr 44px;
+      grid-template-columns: 38px 48px 1fr 36px;
       gap: 8px;
       align-items: center;
-      padding: 6px 8px;
-      border-radius: 5px;
+      padding: 5px 6px;
+      border-radius: 4px;
       font-size: 12px;
-      margin-bottom: 3px;
     }
     .log-row:hover { background: var(--bg); }
-
-    .log-sq { font-family: 'DM Mono', monospace; font-weight: 600; font-size: 13px; color: var(--green-hover); }
+    .log-sq { font-family: 'DM Mono', monospace; font-weight: 600; font-size: 12px; color: var(--green-hover); }
     .log-round { font-size: 11px; font-weight: 600; color: var(--muted); }
     .log-desc { color: var(--text); }
     .log-date { font-size: 11px; color: var(--muted); text-align: right; }
 
-    /* loading */
-    .loading {
-      display: flex; align-items: center; justify-content: center;
-      height: 300px; gap: 10px; color: var(--muted); font-size: 13px;
-    }
-    .spin {
-      width: 18px; height: 18px;
-      border: 2px solid var(--border);
-      border-top-color: var(--green);
-      border-radius: 50%;
-      animation: s 0.7s linear infinite;
-    }
+    .loading { display: flex; align-items: center; justify-content: center; height: 280px; gap: 10px; color: var(--muted); font-size: 13px; }
+    .spin { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: s 0.7s linear infinite; }
     @keyframes s { to { transform: rotate(360deg); } }
   </style>
 </head>
@@ -276,16 +235,12 @@
 <script>
 const URL = './squares.json';
 const RS = {"First Four":"First 4","Round of 64":"R64","Round of 32":"R32","Sweet 16":"S16","Elite 8":"E8","Final Four":"FF","Championship":"NT"};
-let data = null;
-let active = new Set(['all']);
-let open = false;
+let data = null, active = new Set(['all']), open = false;
 
-// Round pills
 document.querySelectorAll('.pill').forEach(p => p.addEventListener('click', () => {
   const r = p.dataset.r;
-  if (r === 'all') {
-    active = new Set(['all']);
-  } else {
+  if (r === 'all') { active = new Set(['all']); }
+  else {
     active.delete('all');
     active.has(r) ? active.delete(r) : active.add(r);
     if (active.size === 0) active = new Set(['all']);
@@ -298,7 +253,7 @@ function getGrid() {
   if (active.has('all') || !data.rounds) return { grid: data.grid, total: data.totalGames };
   const m = {};
   for (let w=0;w<10;w++){m[w]={};for(let l=0;l<10;l++)m[w][l]=0;}
-  let t=0;
+  let t = 0;
   for (const r of active) {
     const rg = data.rounds[r]; if (!rg) continue;
     for(let w=0;w<10;w++)for(let l=0;l<10;l++){const v=parseInt(rg[w]?.[l]||0);m[w][l]+=v;t+=v;}
@@ -312,23 +267,21 @@ function render() {
   if (!data) return;
   const {grid, total} = getGrid();
 
-  // Build table HTML
-  let tbl = `<table class="grid-table"><thead><tr><th class="row-th"></th>`;
+  let tbl = `<table class="grid-table"><thead><tr><th></th>`;
   for (let l=0;l<10;l++) tbl += `<th>${l}</th>`;
   tbl += `</tr></thead><tbody>`;
   for (let w=0;w<10;w++) {
-    tbl += `<tr><td class="row-label">${w}</td>`;
+    tbl += `<tr><td class="lbl">${w}</td>`;
     for (let l=0;l<10;l++) {
       const c = parseInt((grid[w]||{})[l]||0);
       const pct = total>0?((c/total)*100).toFixed(1):'0.0';
-      const tip = c>0 ? `W=${w}/L=${l}: ${c} game${c!==1?'s':''} (${pct}%)` : `W=${w}/L=${l}: none yet`;
+      const tip = c>0?`W=${w}/L=${l}: ${c} game${c!==1?'s':''} (${pct}%)`:`W=${w}/L=${l}: none yet`;
       tbl += `<td><div class="sq${c>0?' hit':''}" data-t="${tip}">${c>0?c:''}</div></td>`;
     }
     tbl += `</tr>`;
   }
   tbl += `</tbody></table>`;
 
-  // Game log
   let games = (data.recentGames||[]);
   if (!active.has('all')) games = games.filter(g=>active.has(g.round));
   const cnt = games.length;
@@ -344,8 +297,8 @@ function render() {
   }).join('');
 
   document.getElementById('content').innerHTML = `
-    <div class="grid-section">
-      <div class="grid-labels-row"><span class="axis-top">Loser's last digit →</span></div>
+    <div class="grid-wrap">
+      <div class="axis-top-row"><span class="axis-top">Loser's last digit →</span></div>
       <div class="grid-body">
         <span class="axis-side">Winner's last digit</span>
         <div class="grid-inner">${tbl}</div>
@@ -353,11 +306,9 @@ function render() {
     </div>
     <div class="footer">
       <div class="count-label">Showing <strong>${total}</strong> game${total!==1?'s':''}</div>
-      <div class="log-toggle" id="lt">
-        Games (${cnt}) <span class="log-arrow${open?' open':''}" id="la">▼</span>
-      </div>
+      <div class="log-toggle" id="lt">Games (${cnt}) <span class="la${open?' open':''}" id="la">▼</span></div>
     </div>
-    <div class="log-body${open?' open':''}" id="lb">${rows||'<div style="padding:12px 0;font-size:12px;color:#6b7280">No games yet for selected rounds.</div>'}</div>
+    <div class="log-body${open?' open':''}" id="lb">${rows||'<div style="padding:10px 0;font-size:12px;color:#6b7280">No games yet.</div>'}</div>
   `;
 
   document.getElementById('lt').addEventListener('click', ()=>{
@@ -372,10 +323,9 @@ async function load() {
     const r = await fetch(`${URL}?t=${Date.now()}`);
     if (!r.ok) throw new Error(r.status);
     data = await r.json();
-    // dim pills with no data
     document.querySelectorAll('.pill[data-r]').forEach(p=>{
       const r=p.dataset.r;
-      if (r!=='all') p.classList.toggle('dim', !(data.rounds&&data.rounds[r]));
+      if (r!=='all') p.classList.toggle('dim',!(data.rounds&&data.rounds[r]));
     });
     render();
   } catch(e) {
@@ -385,7 +335,7 @@ async function load() {
 }
 
 load();
-setInterval(load, 5*60*1000);
+setInterval(load,5*60*1000);
 </script>
 </body>
 </html>
