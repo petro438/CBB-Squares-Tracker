@@ -1,7 +1,7 @@
 {
-  "updated": "2026-03-21T03:33:01Z",
+  "updated": "2026-03-21T05:02:07Z",
   "season": 2026,
-  "totalGames": 32,
+  "totalGames": 36,
   "grid": {
     "0": {
       "0": 1,
@@ -10,7 +10,7 @@
       "3": 0,
       "4": 0,
       "5": 0,
-      "6": 0,
+      "6": 1,
       "7": 0,
       "8": 0,
       "9": 0
@@ -29,7 +29,7 @@
     },
     "2": {
       "0": 0,
-      "1": 0,
+      "1": 1,
       "2": 0,
       "3": 1,
       "4": 0,
@@ -57,7 +57,7 @@
       "2": 0,
       "3": 0,
       "4": 0,
-      "5": 0,
+      "5": 1,
       "6": 0,
       "7": 0,
       "8": 0,
@@ -100,7 +100,7 @@
       "9": 0
     },
     "8": {
-      "0": 0,
+      "0": 1,
       "1": 0,
       "2": 0,
       "3": 0,
@@ -255,7 +255,7 @@
         "3": 0,
         "4": 0,
         "5": 0,
-        "6": 0,
+        "6": 1,
         "7": 0,
         "8": 0,
         "9": 0
@@ -274,7 +274,7 @@
       },
       "2": {
         "0": 0,
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -302,7 +302,7 @@
         "2": 0,
         "3": 0,
         "4": 0,
-        "5": 0,
+        "5": 1,
         "6": 0,
         "7": 0,
         "8": 0,
@@ -345,7 +345,7 @@
         "9": 0
       },
       "8": {
-        "0": 0,
+        "0": 1,
         "1": 0,
         "2": 0,
         "3": 0,
@@ -371,6 +371,42 @@
     }
   },
   "recentGames": [
+    {
+      "date": "2026-03-21",
+      "round": "Round of 64",
+      "winner": "UConn",
+      "winnerScore": 82,
+      "loser": "Furman",
+      "loserScore": 71,
+      "square": "2/1"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "Round of 64",
+      "winner": "Miami",
+      "winnerScore": 80,
+      "loser": "Missouri",
+      "loserScore": 66,
+      "square": "0/6"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "Round of 64",
+      "winner": "Kansas",
+      "winnerScore": 68,
+      "loser": "California Baptist",
+      "loserScore": 60,
+      "square": "8/0"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "Round of 64",
+      "winner": "Florida",
+      "winnerScore": 114,
+      "loser": "Prairie View A&M",
+      "loserScore": 55,
+      "square": "4/5"
+    },
     {
       "date": "2026-03-20",
       "round": "Round of 64",
@@ -518,20 +554,20 @@
     {
       "date": "2026-03-19",
       "round": "Round of 64",
-      "winner": "Texas",
-      "winnerScore": 79,
-      "loser": "BYU",
-      "loserScore": 71,
-      "square": "9/1"
-    },
-    {
-      "date": "2026-03-19",
-      "round": "Round of 64",
       "winner": "Texas A&M",
       "winnerScore": 63,
       "loser": "Saint Mary's",
       "loserScore": 50,
       "square": "3/0"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Round of 64",
+      "winner": "Texas",
+      "winnerScore": 79,
+      "loser": "BYU",
+      "loserScore": 71,
+      "square": "9/1"
     },
     {
       "date": "2026-03-19",
@@ -554,20 +590,20 @@
     {
       "date": "2026-03-19",
       "round": "Round of 64",
-      "winner": "Arkansas",
-      "winnerScore": 97,
-      "loser": "Hawai'i",
-      "loserScore": 78,
-      "square": "7/8"
-    },
-    {
-      "date": "2026-03-19",
-      "round": "Round of 64",
       "winner": "Michigan State",
       "winnerScore": 92,
       "loser": "North Dakota State",
       "loserScore": 67,
       "square": "2/7"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Round of 64",
+      "winner": "Arkansas",
+      "winnerScore": 97,
+      "loser": "Hawai'i",
+      "loserScore": 78,
+      "square": "7/8"
     },
     {
       "date": "2026-03-19",
