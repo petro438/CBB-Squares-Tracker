@@ -1,7 +1,7 @@
 {
-  "updated": "2026-03-21T23:15:35Z",
+  "updated": "2026-03-21T23:44:20Z",
   "season": 2026,
-  "totalGames": 38,
+  "totalGames": 39,
   "grid": {
     "0": {
       "0": 1,
@@ -24,7 +24,7 @@
       "5": 1,
       "6": 0,
       "7": 0,
-      "8": 0,
+      "8": 1,
       "9": 0
     },
     "2": {
@@ -391,7 +391,7 @@
         "5": 0,
         "6": 0,
         "7": 0,
-        "8": 0,
+        "8": 1,
         "9": 0
       },
       "2": {
@@ -496,6 +496,15 @@
     {
       "date": "2026-03-21",
       "round": "Round of 32",
+      "winner": "Duke",
+      "winnerScore": 81,
+      "loser": "TCU",
+      "loserScore": 58,
+      "square": "1/8"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "Round of 32",
       "winner": "Michigan State",
       "winnerScore": 77,
       "loser": "Louisville",
@@ -523,20 +532,20 @@
     {
       "date": "2026-03-21",
       "round": "Round of 64",
-      "winner": "Miami",
-      "winnerScore": 80,
-      "loser": "Missouri",
-      "loserScore": 66,
-      "square": "0/6"
-    },
-    {
-      "date": "2026-03-21",
-      "round": "Round of 64",
       "winner": "Kansas",
       "winnerScore": 68,
       "loser": "California Baptist",
       "loserScore": 60,
       "square": "8/0"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "Round of 64",
+      "winner": "Miami",
+      "winnerScore": 80,
+      "loser": "Missouri",
+      "loserScore": 66,
+      "square": "0/6"
     },
     {
       "date": "2026-03-21",
