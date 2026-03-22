@@ -1,7 +1,7 @@
 {
-  "updated": "2026-03-22T17:48:00Z",
+  "updated": "2026-03-22T18:23:16Z",
   "season": 2026,
-  "totalGames": 44,
+  "totalGames": 45,
   "grid": {
     "0": {
       "0": 1,
@@ -121,7 +121,7 @@
       "6": 0,
       "7": 0,
       "8": 0,
-      "9": 1
+      "9": 2
     }
   },
   "rounds": {
@@ -488,11 +488,20 @@
         "6": 0,
         "7": 0,
         "8": 0,
-        "9": 0
+        "9": 1
       }
     }
   },
   "recentGames": [
+    {
+      "date": "2026-03-22",
+      "round": "Round of 32",
+      "winner": "Purdue",
+      "winnerScore": 79,
+      "loser": "Miami",
+      "loserScore": 69,
+      "square": "9/9"
+    },
     {
       "date": "2026-03-22",
       "round": "Round of 32",
@@ -577,20 +586,20 @@
     {
       "date": "2026-03-21",
       "round": "Round of 64",
-      "winner": "Miami",
-      "winnerScore": 80,
-      "loser": "Missouri",
-      "loserScore": 66,
-      "square": "0/6"
-    },
-    {
-      "date": "2026-03-21",
-      "round": "Round of 64",
       "winner": "Kansas",
       "winnerScore": 68,
       "loser": "California Baptist",
       "loserScore": 60,
       "square": "8/0"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "Round of 64",
+      "winner": "Miami",
+      "winnerScore": 80,
+      "loser": "Missouri",
+      "loserScore": 66,
+      "square": "0/6"
     },
     {
       "date": "2026-03-21",
