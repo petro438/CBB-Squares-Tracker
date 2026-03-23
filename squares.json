@@ -1,7 +1,7 @@
 {
-  "updated": "2026-03-23T04:03:13Z",
+  "updated": "2026-03-23T05:52:14Z",
   "season": 2026,
-  "totalGames": 51,
+  "totalGames": 52,
   "grid": {
     "0": {
       "0": 1,
@@ -9,7 +9,7 @@
       "2": 0,
       "3": 0,
       "4": 0,
-      "5": 0,
+      "5": 1,
       "6": 1,
       "7": 0,
       "8": 0,
@@ -376,7 +376,7 @@
         "2": 0,
         "3": 0,
         "4": 0,
-        "5": 0,
+        "5": 1,
         "6": 0,
         "7": 0,
         "8": 0,
@@ -493,6 +493,15 @@
     }
   },
   "recentGames": [
+    {
+      "date": "2026-03-23",
+      "round": "Round of 32",
+      "winner": "Alabama",
+      "winnerScore": 90,
+      "loser": "Texas Tech",
+      "loserScore": 65,
+      "square": "0/5"
+    },
     {
       "date": "2026-03-23",
       "round": "Round of 32",
@@ -811,20 +820,20 @@
     {
       "date": "2026-03-19",
       "round": "Round of 64",
-      "winner": "Texas A&M",
-      "winnerScore": 63,
-      "loser": "Saint Mary's",
-      "loserScore": 50,
-      "square": "3/0"
-    },
-    {
-      "date": "2026-03-19",
-      "round": "Round of 64",
       "winner": "Texas",
       "winnerScore": 79,
       "loser": "BYU",
       "loserScore": 71,
       "square": "9/1"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Round of 64",
+      "winner": "Texas A&M",
+      "winnerScore": 63,
+      "loser": "Saint Mary's",
+      "loserScore": 50,
+      "square": "3/0"
     },
     {
       "date": "2026-03-19",
@@ -847,20 +856,20 @@
     {
       "date": "2026-03-19",
       "round": "Round of 64",
-      "winner": "Arkansas",
-      "winnerScore": 97,
-      "loser": "Hawai'i",
-      "loserScore": 78,
-      "square": "7/8"
-    },
-    {
-      "date": "2026-03-19",
-      "round": "Round of 64",
       "winner": "Michigan State",
       "winnerScore": 92,
       "loser": "North Dakota State",
       "loserScore": 67,
       "square": "2/7"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Round of 64",
+      "winner": "Arkansas",
+      "winnerScore": 97,
+      "loser": "Hawai'i",
+      "loserScore": 78,
+      "square": "7/8"
     },
     {
       "date": "2026-03-19",
