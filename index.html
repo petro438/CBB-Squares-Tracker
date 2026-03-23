@@ -8,201 +8,69 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --green: #00c358;
-      --green-hover: #00a349;
-      --text: #111827;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-      --bg: #f9fafb;
-      --white: #fff;
+      --green: #00c358; --green-hover: #00a349;
+      --text: #111827; --muted: #6b7280;
+      --border: #e5e7eb; --bg: #f9fafb; --white: #fff;
       --cell-empty: #f3f4f6;
     }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--white);
-      color: var(--text);
-      padding: 12px 16px 16px;
-    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); padding: 12px 16px 16px; }
 
-    /* ── Round pills ── */
-    .rounds {
+    /* ── Tabs ── */
+    .tabs {
       display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-bottom: 14px;
-      align-items: center;
+      gap: 0;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 12px;
     }
-    .rounds-label {
-      font-size: 11px;
+    .tab {
+      font-size: 13px;
       font-weight: 600;
       color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-right: 3px;
-    }
-    .pill {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted);
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: 20px;
-      padding: 3px 11px;
+      padding: 8px 16px;
       cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
       transition: all 0.12s;
-      line-height: 1.4;
+      user-select: none;
     }
+    .tab:hover { color: var(--text); }
+    .tab.on { color: var(--green); border-bottom-color: var(--green); }
+
+    /* ── Round pills ── */
+    .rounds { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; align-items: center; }
+    .rounds-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-right: 3px; }
+    .pill { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--muted); background: var(--white); border: 1.5px solid var(--border); border-radius: 20px; padding: 3px 11px; cursor: pointer; transition: all 0.12s; }
     .pill:hover { border-color: var(--green); color: var(--text); }
     .pill.on { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 600; }
     .pill.dim { opacity: 0.35; }
 
     /* ── Grid ── */
-    .grid-wrap {
-      width: 100%;
-    }
-
-    .axis-top-row {
-      padding-left: 28px;
-      margin-bottom: 3px;
-    }
-    .axis-top {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .grid-body {
-      display: flex;
-      gap: 3px;
-      align-items: stretch;
-    }
-
-    .axis-side {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      white-space: nowrap;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    .axis-top-row { padding-left: 28px; margin-bottom: 3px; }
+    .axis-top { font-size: 12px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.06em; }
+    .grid-body { display: flex; gap: 3px; align-items: stretch; }
+    .axis-side { font-size: 12px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.06em; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
     .grid-inner { flex: 1; min-width: 0; overflow-x: auto; }
-
-    .grid-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 3px;
-      table-layout: fixed;
-    }
-
-    .grid-table th {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--muted);
-      text-align: center;
-      padding: 2px 0 3px;
-    }
+    .grid-table { width: 100%; border-collapse: separate; border-spacing: 3px; table-layout: fixed; }
+    .grid-table th { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--muted); text-align: center; padding: 2px 0 3px; }
     .grid-table th:first-child { width: 22px; }
-
     .grid-table td { padding: 0; text-align: center; }
-    .grid-table td.lbl {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--muted);
-      width: 22px;
-    }
-
-    .sq {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      aspect-ratio: 1;
-      border-radius: 3px;
-      background: var(--cell-empty);
-      font-family: 'DM Mono', monospace;
-      font-weight: 500;
-      color: transparent;
-      font-size: clamp(10px, 1.6vw, 16px);
-      transition: transform 0.1s;
-      position: relative;
-      cursor: default;
-    }
-    .sq.hit {
-      background: var(--green);
-      color: #003d1a;
-    }
-    .sq.hit:hover {
-      transform: scale(1.12);
-      background: var(--green-hover);
-      z-index: 5;
-    }
-    .sq[data-t]:hover::after {
-      content: attr(data-t);
-      position: absolute;
-      bottom: calc(100% + 5px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: #111;
-      color: #fff;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      white-space: nowrap;
-      padding: 3px 7px;
-      border-radius: 4px;
-      pointer-events: none;
-      z-index: 20;
-    }
+    .grid-table td.lbl { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--muted); width: 22px; }
+    .sq { display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 1; border-radius: 3px; background: var(--cell-empty); font-family: 'DM Mono', monospace; font-weight: 500; color: transparent; font-size: clamp(10px, 1.6vw, 16px); transition: transform 0.1s; position: relative; cursor: default; }
+    .sq.hit { background: var(--green); color: #003d1a; }
+    .sq.hit:hover { transform: scale(1.12); background: var(--green-hover); z-index: 5; }
+    .sq[data-t]:hover::after { content: attr(data-t); position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%); background: #111; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; white-space: nowrap; padding: 3px 7px; border-radius: 4px; pointer-events: none; z-index: 20; }
 
     /* ── Footer / log ── */
-    .footer {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
+    .footer { margin-top: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
     .count-label { font-size: 12px; color: var(--muted); }
     .count-label strong { color: var(--text); }
-    .log-toggle {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      user-select: none;
-    }
+    .log-toggle { font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.05em; user-select: none; }
     .log-toggle:hover { color: var(--text); }
     .la { display: inline-block; font-size: 9px; transition: transform 0.15s; }
     .la.open { transform: rotate(180deg); }
     .log-body { display: none; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 8px; }
     .log-body.open { display: block; }
-    .log-row {
-      display: grid;
-      grid-template-columns: 38px 48px 1fr 36px;
-      gap: 8px;
-      align-items: center;
-      padding: 5px 6px;
-      border-radius: 4px;
-      font-size: 12px;
-    }
+    .log-row { display: grid; grid-template-columns: 38px 48px 1fr 36px; gap: 8px; align-items: center; padding: 5px 6px; border-radius: 4px; font-size: 12px; }
     .log-row:hover { background: var(--bg); }
     .log-sq { font-family: 'DM Mono', monospace; font-weight: 600; font-size: 12px; color: var(--green-hover); }
     .log-round { font-size: 11px; font-weight: 600; color: var(--muted); }
@@ -216,6 +84,13 @@
 </head>
 <body>
 
+<!-- Tabs -->
+<div class="tabs">
+  <div class="tab on" data-tab="final">Final Score</div>
+  <div class="tab" data-tab="halftime">Halftime</div>
+</div>
+
+<!-- Round pills -->
 <div class="rounds" id="rounds">
   <span class="rounds-label">Round</span>
   <button class="pill on" data-r="all">All</button>
@@ -233,10 +108,19 @@
 </div>
 
 <script>
-const URL = './squares.json';
+const JSON_URL = './squares.json';
 const RS = {"First Four":"First 4","Round of 64":"R64","Round of 32":"R32","Sweet 16":"S16","Elite 8":"E8","Final Four":"FF","Championship":"NT"};
-let data = null, active = new Set(['all']), open = false;
+let data = null, active = new Set(['all']), open = false, currentTab = 'final';
 
+// Tabs
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  currentTab = t.dataset.tab;
+  document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x.dataset.tab === currentTab));
+  updatePillVisibility();
+  render();
+}));
+
+// Pills
 document.querySelectorAll('.pill').forEach(p => p.addEventListener('click', () => {
   const r = p.dataset.r;
   if (r === 'all') {
@@ -254,13 +138,30 @@ document.querySelectorAll('.pill').forEach(p => p.addEventListener('click', () =
   render();
 }));
 
+function getSource() {
+  if (!data) return null;
+  return currentTab === 'halftime' ? data.halftime : data;
+}
+
+function updatePillVisibility() {
+  const src = getSource();
+  if (!src) return;
+  document.querySelectorAll('.pill[data-r]').forEach(p => {
+    const r = p.dataset.r;
+    if (r === 'all') return;
+    p.classList.toggle('dim', !(src.rounds && src.rounds[r]));
+  });
+}
+
 function getGrid() {
-  if (active.has('all') || !data.rounds) return { grid: data.grid, total: data.totalGames };
+  const src = getSource();
+  if (!src) return { grid: {}, total: 0 };
+  if (active.has('all') || !src.rounds) return { grid: src.grid, total: src.totalGames };
   const m = {};
   for (let w=0;w<10;w++){m[w]={};for(let l=0;l<10;l++)m[w][l]=0;}
   let t = 0;
   for (const r of active) {
-    const rg = data.rounds[r]; if (!rg) continue;
+    const rg = src.rounds[r]; if (!rg) continue;
     for(let w=0;w<10;w++)for(let l=0;l<10;l++){const v=parseInt(rg[w]?.[l]||0);m[w][l]+=v;t+=v;}
   }
   const out={};
@@ -268,10 +169,7 @@ function getGrid() {
   return {grid:out,total:t};
 }
 
-function render() {
-  if (!data) return;
-  const {grid, total} = getGrid();
-
+function buildGridHTML(grid, total) {
   let tbl = `<table class="grid-table"><thead><tr><th></th>`;
   for (let l=0;l<10;l++) tbl += `<th>${l}</th>`;
   tbl += `</tr></thead><tbody>`;
@@ -286,13 +184,21 @@ function render() {
     tbl += `</tr>`;
   }
   tbl += `</tbody></table>`;
+  return tbl;
+}
 
-  let games = (data.recentGames||[]);
-  if (!active.has('all')) games = games.filter(g=>active.has(g.round));
+function render() {
+  if (!data) return;
+  const src = getSource();
+  const {grid, total} = getGrid();
+  const tbl = buildGridHTML(grid, total);
+
+  let games = (src.recentGames || []);
+  if (!active.has('all')) games = games.filter(g => active.has(g.round));
   const cnt = games.length;
-  const rows = games.map(g=>{
-    const [wd,ld]=g.square.split('/');
-    const d=g.date?`${parseInt(g.date.split('-')[1])}/${parseInt(g.date.split('-')[2])}`:'';
+  const rows = games.map(g => {
+    const [wd,ld] = g.square.split('/');
+    const d = g.date ? `${parseInt(g.date.split('-')[1])}/${parseInt(g.date.split('-')[2])}` : '';
     return `<div class="log-row">
       <div class="log-sq">${g.square}</div>
       <div class="log-round">${RS[g.round]||g.round||''}</div>
@@ -302,12 +208,10 @@ function render() {
   }).join('');
 
   document.getElementById('content').innerHTML = `
-    <div class="grid-wrap">
-      <div class="axis-top-row"><span class="axis-top">Loser's last digit →</span></div>
-      <div class="grid-body">
-        <span class="axis-side">Winner's last digit</span>
-        <div class="grid-inner">${tbl}</div>
-      </div>
+    <div class="axis-top-row"><span class="axis-top">Loser's last digit →</span></div>
+    <div class="grid-body">
+      <span class="axis-side">Winner's last digit</span>
+      <div class="grid-inner">${tbl}</div>
     </div>
     <div class="footer">
       <div class="count-label">Showing <strong>${total}</strong> game${total!==1?'s':''}</div>
@@ -316,31 +220,28 @@ function render() {
     <div class="log-body${open?' open':''}" id="lb">${rows||'<div style="padding:10px 0;font-size:12px;color:#6b7280">No games yet.</div>'}</div>
   `;
 
-  document.getElementById('lt').addEventListener('click', ()=>{
-    open=!open;
-    document.getElementById('lb').classList.toggle('open',open);
-    document.getElementById('la').classList.toggle('open',open);
+  document.getElementById('lt').addEventListener('click', () => {
+    open = !open;
+    document.getElementById('lb').classList.toggle('open', open);
+    document.getElementById('la').classList.toggle('open', open);
   });
 }
 
 async function load() {
   try {
-    const r = await fetch(`${URL}?t=${Date.now()}`);
+    const r = await fetch(`${JSON_URL}?t=${Date.now()}`);
     if (!r.ok) throw new Error(r.status);
     data = await r.json();
-    document.querySelectorAll('.pill[data-r]').forEach(p=>{
-      const r=p.dataset.r;
-      if (r!=='all') p.classList.toggle('dim',!(data.rounds&&data.rounds[r]));
-    });
+    updatePillVisibility();
     render();
   } catch(e) {
-    document.getElementById('content').innerHTML=`<div class="loading" style="color:#dc2626">Failed to load. Retrying...</div>`;
-    setTimeout(load,10000);
+    document.getElementById('content').innerHTML = `<div class="loading" style="color:#dc2626">Failed to load. Retrying...</div>`;
+    setTimeout(load, 10000);
   }
 }
 
 load();
-setInterval(load,5*60*1000);
+setInterval(load, 5*60*1000);
 </script>
 </body>
 </html>
