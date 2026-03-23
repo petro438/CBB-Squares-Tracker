@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Fetches 2026 NCAA Tournament games from collegebasketballdata.com
-and writes squares.json with winner/loser last-digit counts.
+and writes squares.json with winner/loser last-digit counts,
+both for final scores and halftime scores.
 Runs via GitHub Actions every 30 minutes.
 """
 
@@ -19,7 +20,6 @@ HEADERS = {
     "Accept": "application/json"
 }
 
-# NCAA Tournament 2026: March–April 2026
 DATE_CHUNKS = [
     ("2026-03-01T00:00:00Z", "2026-04-30T23:59:59Z"),
 ]
@@ -27,12 +27,10 @@ DATE_CHUNKS = [
 def fetch_tournament_games():
     all_games = []
     seen = set()
-
     for start, end in DATE_CHUNKS:
         params = {
             "season":         2026,
             "seasonType":     "postseason",
-            "tournament":     "NCAA",
             "status":         "final",
             "startDateRange": start,
             "endDateRange":   end,
@@ -43,22 +41,18 @@ def fetch_tournament_games():
             games = resp.json()
             for g in games:
                 gid = g.get("id")
-                if gid not in seen:
+                if g.get("tournament") == "NCAA" and gid not in seen:
                     seen.add(gid)
                     all_games.append(g)
         except Exception as e:
             print(f"Error fetching games: {e}")
-
     return all_games
 
 def get_round(game_notes):
     if not game_notes:
         return "Unknown"
-    # Parse the suffix after the last " - " to avoid matching
-    # "Championship" in the prefix of every game's notes
     parts = game_notes.strip().split(" - ")
     suffix = parts[-1].lower().strip() if parts else ""
-
     if "first four" in suffix:
         return "First Four"
     if "1st round" in suffix or "first round" in suffix:
@@ -77,13 +71,34 @@ def get_round(game_notes):
 
 ROUND_ORDER = ["First Four", "Round of 64", "Round of 32", "Sweet 16", "Elite 8", "Final Four", "Championship", "Unknown"]
 
-def build_grid(games):
-    # Overall grid
-    grid = defaultdict(lambda: defaultdict(int))
-    # Per-round grids
+def parse_halftime(period_str):
+    """Parse '49,37' -> 49 (first half score)"""
+    if not period_str:
+        return None
+    try:
+        return int(str(period_str).split(",")[0].strip())
+    except (ValueError, IndexError):
+        return None
+
+def grid_to_dict(g):
+    out = {}
+    for w in range(10):
+        out[str(w)] = {str(l): g[w][l] for l in range(10)}
+    return out
+
+def build_grids(games):
+    # Final score structures
+    grid        = defaultdict(lambda: defaultdict(int))
     round_grids = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
-    total = 0
-    game_log = []
+
+    # Halftime score structures
+    ht_grid        = defaultdict(lambda: defaultdict(int))
+    ht_round_grids = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+
+    total    = 0
+    ht_total = 0
+    game_log    = []
+    ht_game_log = []
 
     for g in games:
         try:
@@ -91,69 +106,94 @@ def build_grid(games):
             ap = int(g.get("awayPoints") or 0)
         except (ValueError, TypeError):
             continue
-        if hp == 0 and ap == 0:
-            continue
-        if hp == ap:
+        if hp == 0 and ap == 0 or hp == ap:
             continue
 
-        winner_pts = max(hp, ap)
-        loser_pts  = min(hp, ap)
-        wd = winner_pts % 10
-        ld = loser_pts  % 10
-        round_name = get_round(g.get("gameNotes", ""))
+        round_name  = get_round(g.get("gameNotes", ""))
+        winner_team = g.get("homeTeam") if hp > ap else g.get("awayTeam")
+        loser_team  = g.get("awayTeam") if hp > ap else g.get("homeTeam")
+        date_str    = g.get("startDate", "")[:10]
 
+        # ── Final score grid ──
+        wd = max(hp, ap) % 10
+        ld = min(hp, ap) % 10
         grid[wd][ld] += 1
         round_grids[round_name][wd][ld] += 1
         total += 1
-
-        winner_team = g.get("homeTeam") if hp > ap else g.get("awayTeam")
-        loser_team  = g.get("awayTeam") if hp > ap else g.get("homeTeam")
-
         game_log.append({
-            "date":        g.get("startDate", "")[:10],
+            "date":        date_str,
             "round":       round_name,
             "winner":      winner_team,
-            "winnerScore": winner_pts,
+            "winnerScore": max(hp, ap),
             "loser":       loser_team,
-            "loserScore":  loser_pts,
+            "loserScore":  min(hp, ap),
             "square":      f"{wd}/{ld}",
         })
 
-    # Convert to plain dicts for JSON
-    def grid_to_dict(g):
-        out = {}
-        for w in range(10):
-            out[str(w)] = {str(l): g[w][l] for l in range(10)}
-        return out
+        # ── Halftime grid ──
+        home_ht = parse_halftime(g.get("homePeriodPoints") or g.get("HomePeriodPoints"))
+        away_ht = parse_halftime(g.get("awayPeriodPoints") or g.get("AwayPeriodPoints"))
+        if home_ht is not None and away_ht is not None and home_ht != away_ht:
+            ht_winner = max(home_ht, away_ht)
+            ht_loser  = min(home_ht, away_ht)
+            ht_winner_team = g.get("homeTeam") if home_ht > away_ht else g.get("awayTeam")
+            ht_loser_team  = g.get("awayTeam") if home_ht > away_ht else g.get("homeTeam")
+            hwd = ht_winner % 10
+            hld = ht_loser  % 10
+            ht_grid[hwd][hld] += 1
+            ht_round_grids[round_name][hwd][hld] += 1
+            ht_total += 1
+            ht_game_log.append({
+                "date":        date_str,
+                "round":       round_name,
+                "winner":      ht_winner_team,
+                "winnerScore": ht_winner,
+                "loser":       ht_loser_team,
+                "loserScore":  ht_loser,
+                "square":      f"{hwd}/{hld}",
+            })
 
+    # Build round dicts
     rounds_out = {}
-    for round_name in ROUND_ORDER:
-        if round_name in round_grids:
-            rounds_out[round_name] = grid_to_dict(round_grids[round_name])
+    ht_rounds_out = {}
+    for rn in ROUND_ORDER:
+        if rn in round_grids:
+            rounds_out[rn] = grid_to_dict(round_grids[rn])
+        if rn in ht_round_grids:
+            ht_rounds_out[rn] = grid_to_dict(ht_round_grids[rn])
 
-    return grid_to_dict(grid), total, game_log, rounds_out
+    return (
+        grid_to_dict(grid), total, game_log, rounds_out,
+        grid_to_dict(ht_grid), ht_total, ht_game_log, ht_rounds_out
+    )
 
 def main():
     print("Fetching tournament games...")
     games = fetch_tournament_games()
     print(f"  {len(games)} games fetched")
 
-    grid, total, game_log, rounds = build_grid(games)
+    grid, total, game_log, rounds, ht_grid, ht_total, ht_game_log, ht_rounds = build_grids(games)
 
     output = {
-        "updated":    datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "season":     2026,
-        "totalGames": total,
-        "grid":       grid,
-        "rounds":     rounds,
-        "recentGames": game_log[::-1],
+        "updated":      datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "season":       2026,
+        "totalGames":   total,
+        "grid":         grid,
+        "rounds":       rounds,
+        "recentGames":  game_log[::-1],
+        "halftime": {
+            "totalGames":  ht_total,
+            "grid":        ht_grid,
+            "rounds":      ht_rounds,
+            "recentGames": ht_game_log[::-1],
+        }
     }
 
     out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "squares.json")
     with open(out_path, "w") as f:
         json.dump(output, f, indent=2)
 
-    print(f"  Written squares.json ({total} games)")
+    print(f"  Written squares.json ({total} final, {ht_total} halftime)")
     print(f"  Updated: {output['updated']}")
 
 if __name__ == "__main__":
