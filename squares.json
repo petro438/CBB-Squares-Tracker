@@ -1,7 +1,7 @@
 {
-  "updated": "2026-03-22T23:48:23Z",
+  "updated": "2026-03-23T01:17:30Z",
   "season": 2026,
-  "totalGames": 47,
+  "totalGames": 48,
   "grid": {
     "0": {
       "0": 1,
@@ -114,7 +114,7 @@
     "9": {
       "0": 0,
       "1": 1,
-      "2": 0,
+      "2": 1,
       "3": 1,
       "4": 1,
       "5": 0,
@@ -481,7 +481,7 @@
       "9": {
         "0": 0,
         "1": 0,
-        "2": 0,
+        "2": 1,
         "3": 0,
         "4": 0,
         "5": 0,
@@ -493,6 +493,15 @@
     }
   },
   "recentGames": [
+    {
+      "date": "2026-03-22",
+      "round": "Round of 32",
+      "winner": "Tennessee",
+      "winnerScore": 79,
+      "loser": "Virginia",
+      "loserScore": 72,
+      "square": "9/2"
+    },
     {
       "date": "2026-03-22",
       "round": "Round of 32",
@@ -604,20 +613,20 @@
     {
       "date": "2026-03-21",
       "round": "Round of 64",
-      "winner": "Kansas",
-      "winnerScore": 68,
-      "loser": "California Baptist",
-      "loserScore": 60,
-      "square": "8/0"
-    },
-    {
-      "date": "2026-03-21",
-      "round": "Round of 64",
       "winner": "Miami",
       "winnerScore": 80,
       "loser": "Missouri",
       "loserScore": 66,
       "square": "0/6"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "Round of 64",
+      "winner": "Kansas",
+      "winnerScore": 68,
+      "loser": "California Baptist",
+      "loserScore": 60,
+      "square": "8/0"
     },
     {
       "date": "2026-03-21",
