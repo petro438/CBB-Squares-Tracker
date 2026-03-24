@@ -58,7 +58,7 @@
     .sq { display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 1; border-radius: 3px; background: var(--cell-empty); font-family: 'DM Mono', monospace; font-weight: 500; color: transparent; font-size: clamp(10px, 1.6vw, 16px); transition: transform 0.1s; position: relative; cursor: default; }
     .sq.hit { background: var(--green); color: #003d1a; }
     .sq.hit:hover { transform: scale(1.12); background: var(--green-hover); z-index: 5; }
-    .sq[data-t]:hover::after { content: attr(data-t); position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%); background: #111; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; white-space: nowrap; padding: 3px 7px; border-radius: 4px; pointer-events: none; z-index: 20; }
+    .sq[data-t]:hover::after { content: attr(data-t); position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%); background: #111; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; white-space: normal; max-width: 260px; text-align: center; padding: 5px 8px; border-radius: 4px; pointer-events: none; z-index: 20; line-height: 1.5; }
 
     /* ── Footer / log ── */
     .footer { margin-top: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
@@ -169,7 +169,15 @@ function getGrid() {
   return {grid:out,total:t};
 }
 
-function buildGridHTML(grid, total) {
+function buildGridHTML(grid, total, games) {
+  // Build a lookup: square key -> list of game descriptions
+  const bySquare = {};
+  for (const g of (games||[])) {
+    const k = g.square;
+    if (!bySquare[k]) bySquare[k] = [];
+    bySquare[k].push(`${g.winner} ${g.winnerScore}, ${g.loser} ${g.loserScore}`);
+  }
+
   let tbl = `<table class="grid-table"><thead><tr><th></th>`;
   for (let l=0;l<10;l++) tbl += `<th>${l}</th>`;
   tbl += `</tr></thead><tbody>`;
@@ -177,8 +185,17 @@ function buildGridHTML(grid, total) {
     tbl += `<tr><td class="lbl">${w}</td>`;
     for (let l=0;l<10;l++) {
       const c = parseInt((grid[w]||{})[l]||0);
-      const pct = total>0?((c/total)*100).toFixed(1):'0.0';
-      const tip = c>0?`W=${w}/L=${l}: ${c} game${c!==1?'s':''} (${pct}%)`:`W=${w}/L=${l}: none yet`;
+      const key = `${w}/${l}`;
+      let tip;
+      if (c > 0) {
+        const glist = bySquare[key] || [];
+        // Show up to 5 games in tooltip, then "+N more"
+        const shown = glist.slice(0, 5).join(' | ');
+        const extra = glist.length > 5 ? ` +${glist.length-5} more` : '';
+        tip = shown + extra;
+      } else {
+        tip = `W=${w}/L=${l}: none yet`;
+      }
       tbl += `<td><div class="sq${c>0?' hit':''}" data-t="${tip}">${c>0?c:''}</div></td>`;
     }
     tbl += `</tr>`;
@@ -191,7 +208,7 @@ function render() {
   if (!data) return;
   const src = getSource();
   const {grid, total} = getGrid();
-  const tbl = buildGridHTML(grid, total);
+  const tbl = buildGridHTML(grid, total, src.recentGames);
 
   let games = (src.recentGames || []);
   if (!active.has('all')) games = games.filter(g => active.has(g.round));
