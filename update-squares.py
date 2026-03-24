@@ -71,12 +71,14 @@ def get_round(game_notes):
 
 ROUND_ORDER = ["First Four", "Round of 64", "Round of 32", "Sweet 16", "Elite 8", "Final Four", "Championship", "Unknown"]
 
-def parse_halftime(period_str):
-    """Parse '49,37' -> 49 (first half score)"""
-    if not period_str:
+def parse_halftime(period_val):
+    """Handles both list [49, 37] and string '49,37' formats"""
+    if not period_val:
         return None
     try:
-        return int(str(period_str).split(",")[0].strip())
+        if isinstance(period_val, list):
+            return int(period_val[0])
+        return int(str(period_val).split(",")[0].strip())
     except (ValueError, IndexError):
         return None
 
