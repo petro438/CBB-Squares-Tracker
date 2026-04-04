@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-04T21:52:25Z",
+  "updated": "2026-04-04T22:19:16Z",
   "season": 2026,
   "totalGames": 64,
   "grid": {
@@ -1172,20 +1172,20 @@
     {
       "date": "2026-03-19",
       "round": "Round of 64",
-      "winner": "Texas A&M",
-      "winnerScore": 63,
-      "loser": "Saint Mary's",
-      "loserScore": 50,
-      "square": "3/0"
-    },
-    {
-      "date": "2026-03-19",
-      "round": "Round of 64",
       "winner": "Texas",
       "winnerScore": 79,
       "loser": "BYU",
       "loserScore": 71,
       "square": "9/1"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Round of 64",
+      "winner": "Texas A&M",
+      "winnerScore": 63,
+      "loser": "Saint Mary's",
+      "loserScore": 50,
+      "square": "3/0"
     },
     {
       "date": "2026-03-19",
@@ -2486,20 +2486,20 @@
       {
         "date": "2026-03-19",
         "round": "Round of 64",
-        "winner": "Texas A&M",
-        "winnerScore": 37,
-        "loser": "Saint Mary's",
-        "loserScore": 26,
-        "square": "7/6"
-      },
-      {
-        "date": "2026-03-19",
-        "round": "Round of 64",
         "winner": "Texas",
         "winnerScore": 46,
         "loser": "BYU",
         "loserScore": 37,
         "square": "6/7"
+      },
+      {
+        "date": "2026-03-19",
+        "round": "Round of 64",
+        "winner": "Texas A&M",
+        "winnerScore": 37,
+        "loser": "Saint Mary's",
+        "loserScore": 26,
+        "square": "7/6"
       },
       {
         "date": "2026-03-19",
