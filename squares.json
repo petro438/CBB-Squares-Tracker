@@ -1,7 +1,7 @@
 {
-  "updated": "2026-04-05T01:24:57Z",
+  "updated": "2026-04-05T04:14:11Z",
   "season": 2026,
-  "totalGames": 65,
+  "totalGames": 66,
   "grid": {
     "0": {
       "0": 1,
@@ -19,7 +19,7 @@
       "0": 1,
       "1": 1,
       "2": 1,
-      "3": 0,
+      "3": 1,
       "4": 0,
       "5": 1,
       "6": 0,
@@ -752,7 +752,7 @@
         "0": 0,
         "1": 0,
         "2": 1,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5": 0,
         "6": 0,
@@ -859,6 +859,15 @@
     }
   },
   "recentGames": [
+    {
+      "date": "2026-04-05",
+      "round": "Final Four",
+      "winner": "Michigan",
+      "winnerScore": 91,
+      "loser": "Arizona",
+      "loserScore": 73,
+      "square": "1/3"
+    },
     {
       "date": "2026-04-04",
       "round": "Final Four",
@@ -1303,20 +1312,20 @@
     {
       "date": "2026-03-19",
       "round": "Round of 64",
-      "winner": "Texas",
-      "winnerScore": 79,
-      "loser": "BYU",
-      "loserScore": 71,
-      "square": "9/1"
-    },
-    {
-      "date": "2026-03-19",
-      "round": "Round of 64",
       "winner": "Texas A&M",
       "winnerScore": 63,
       "loser": "Saint Mary's",
       "loserScore": 50,
       "square": "3/0"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Round of 64",
+      "winner": "Texas",
+      "winnerScore": 79,
+      "loser": "BYU",
+      "loserScore": 71,
+      "square": "9/1"
     },
     {
       "date": "2026-03-19",
@@ -1339,20 +1348,20 @@
     {
       "date": "2026-03-19",
       "round": "Round of 64",
-      "winner": "Michigan State",
-      "winnerScore": 92,
-      "loser": "North Dakota State",
-      "loserScore": 67,
-      "square": "2/7"
-    },
-    {
-      "date": "2026-03-19",
-      "round": "Round of 64",
       "winner": "Arkansas",
       "winnerScore": 97,
       "loser": "Hawai'i",
       "loserScore": 78,
       "square": "7/8"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "Round of 64",
+      "winner": "Michigan State",
+      "winnerScore": 92,
+      "loser": "North Dakota State",
+      "loserScore": 67,
+      "square": "2/7"
     },
     {
       "date": "2026-03-19",
@@ -1446,7 +1455,7 @@
     }
   ],
   "halftime": {
-    "totalGames": 65,
+    "totalGames": 66,
     "grid": {
       "0": {
         "0": 1,
@@ -1547,7 +1556,7 @@
       "8": {
         "0": 0,
         "1": 1,
-        "2": 0,
+        "2": 1,
         "3": 1,
         "4": 2,
         "5": 1,
@@ -2280,7 +2289,7 @@
         "8": {
           "0": 0,
           "1": 0,
-          "2": 0,
+          "2": 1,
           "3": 0,
           "4": 0,
           "5": 0,
@@ -2304,6 +2313,15 @@
       }
     },
     "recentGames": [
+      {
+        "date": "2026-04-05",
+        "round": "Final Four",
+        "winner": "Michigan",
+        "winnerScore": 48,
+        "loser": "Arizona",
+        "loserScore": 32,
+        "square": "8/2"
+      },
       {
         "date": "2026-04-04",
         "round": "Final Four",
@@ -2748,20 +2766,20 @@
       {
         "date": "2026-03-19",
         "round": "Round of 64",
-        "winner": "Texas",
-        "winnerScore": 46,
-        "loser": "BYU",
-        "loserScore": 37,
-        "square": "6/7"
-      },
-      {
-        "date": "2026-03-19",
-        "round": "Round of 64",
         "winner": "Texas A&M",
         "winnerScore": 37,
         "loser": "Saint Mary's",
         "loserScore": 26,
         "square": "7/6"
+      },
+      {
+        "date": "2026-03-19",
+        "round": "Round of 64",
+        "winner": "Texas",
+        "winnerScore": 46,
+        "loser": "BYU",
+        "loserScore": 37,
+        "square": "6/7"
       },
       {
         "date": "2026-03-19",
@@ -2784,20 +2802,20 @@
       {
         "date": "2026-03-19",
         "round": "Round of 64",
-        "winner": "Michigan State",
-        "winnerScore": 45,
-        "loser": "North Dakota State",
-        "loserScore": 25,
-        "square": "5/5"
-      },
-      {
-        "date": "2026-03-19",
-        "round": "Round of 64",
         "winner": "Arkansas",
         "winnerScore": 54,
         "loser": "Hawai'i",
         "loserScore": 36,
         "square": "4/6"
+      },
+      {
+        "date": "2026-03-19",
+        "round": "Round of 64",
+        "winner": "Michigan State",
+        "winnerScore": 45,
+        "loser": "North Dakota State",
+        "loserScore": 25,
+        "square": "5/5"
       },
       {
         "date": "2026-03-19",
